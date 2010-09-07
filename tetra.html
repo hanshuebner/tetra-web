@@ -1,0 +1,175 @@
+<html>
+  <head>
+    <title>DSI TETR4</title>
+    <link type="text/css" href="reset.css" rel="stylesheet" />
+    <link type="text/css" href="tetra.css" rel="stylesheet" />
+    <script type="application/javascript" src="lwc/utils.js"></script>
+    <script type="application/javascript" src="lwc/optionable.js"></script>
+    <script type="application/javascript" src="lwc/control.js"></script>
+    <script type="application/javascript" src="lwc/spinner.js"></script>
+    <script type="application/javascript" src="lwc/toggler.js"></script>
+    <script type="application/javascript" src="lwc/selector.js"></script>
+    <script type="text/javascript">MochiKit = {__export__: false};</script>
+    <script type="application/javascript" src="MochiKit/MochiKit.js"></script>
+    <script type="application/javascript" src="jquery-1.4.2.min.js"></script>
+    <script type="application/javascript" src="jquery.cookie.js"></script>
+    <script type="application/javascript" src="midi/save-state.js"></script>
+    <script type="application/javascript" src="midi/log.js"></script>
+    <script type="application/javascript" src="midi/midi-utils.js"></script>
+    <script type="application/javascript" src="tetra.js"></script>
+  </head>
+  <body>
+    <form onsubmit="return false;">
+      <fieldset>
+        <legend>osc 1</legend>
+        <button id="osc-1-freq"></button>
+        <button id="osc-1-freq-fine"></button>
+        <button id="osc-1-shape"></button>
+        <button id="glide-1"></button>
+        <button id="osc-1-key"></button>
+      </fieldset>
+      <fieldset>
+        <legend>osc 2</legend>
+        <button id="osc-2-freq"></button>
+        <button id="osc-2-freq-fine"></button>
+        <button id="osc-2-shape"></button>
+        <button id="glide-2"></button>
+        <button id="osc-2-key"></button>
+      </fieldset>
+      <fieldset>
+        <legend>osc</legend>
+        <button id="sync"></button>
+        <button id="glide-mode"></button>
+        <button id="osc-slop"></button>
+        <button id="osc-mix"></button>
+        <button id="noise-level"></button>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>filter</legend>
+        <button id="filter-freq"></button>
+        <button id="resonance"></button>
+        <button id="fil-key-amt"></button>
+        <button id="fil-audio-mod"></button>
+        <button id="filter-poles"></button>
+        <button id="filter-env-amt"></button>
+        <button id="fil-env-vel-amt"></button>
+        <button id="fil-del"></button>
+        <button id="fil-att"></button>
+        <button id="fil-dec"></button>
+        <button id="fil-sus"></button>
+        <button id="fil-rel"></button>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>vca</legend>
+        <button id="vca-level"></button>
+        <button id="output-pan"></button>
+        <button id="preset-volume"></button>
+        <button id="vca-env-amount"></button>
+        <button id="vca-env-vel-amt"></button>
+        <button id="vca-del"></button>
+        <button id="vca-att"></button>
+        <button id="vca-dec"></button>
+        <button id="vca-sus"></button>
+        <button id="vca-rel"></button>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>lfo 1</legend>
+        <button id="lfo-1-freq"></button>
+        <button id="lfo-1-shape"></button>
+        <button id="lfo-1-amt"></button>
+        <button id="lfo-1-dest"></button>
+        <button id="lfo-1-sync"></button>
+      </fieldset>
+      <fieldset>
+        <legend>lfo 2</legend>
+        <button id="lfo-2-freq"></button>
+        <button id="lfo-2-shape"></button>
+        <button id="lfo-2-amt"></button>
+        <button id="lfo-2-dest"></button>
+        <button id="lfo-2-sync"></button>
+      </fieldset>
+      <fieldset>
+        <legend>lfo 3</legend>
+        <button id="lfo-3-freq"></button>
+        <button id="lfo-3-shape"></button>
+        <button id="lfo-3-amt"></button>
+        <button id="lfo-3-dest"></button>
+        <button id="lfo-3-sync"></button>
+      </fieldset>
+      <fieldset>
+        <legend>lfo 4</legend>
+        <button id="lfo-4-freq"></button>
+        <button id="lfo-4-shape"></button>
+        <button id="lfo-4-amt"></button>
+        <button id="lfo-4-dest"></button>
+        <button id="lfo-4-sync"></button>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>env3</legend>
+        <button id="env3-dest"></button>
+        <button id="env3-amt"></button>
+        <button id="env3-vel-amt"></button>
+        <button id="env3-delay"></button>
+        <button id="env3-att"></button>
+        <button id="env3-dec"></button>
+        <button id="env3-sus"></button>
+        <button id="env3-rel"></button>
+        <button id="env3-repeat"></button>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>mod 1</legend>
+        <button id="mod-source-1"></button>
+        <button id="mod-amt-1"></button>
+        <button id="mod-dest-1"></button>
+      </fieldset>
+      <fieldset>
+        <legend>mod 2</legend>
+        <button id="mod-source-2"></button>
+        <button id="mod-amt-2"></button>
+        <button id="mod-dest-2"></button>
+      </fieldset>
+      <fieldset>
+        <legend>mod 3</legend>
+        <button id="mod-source-3"></button>
+        <button id="mod-amt-3"></button>
+        <button id="mod-dest-3"></button>
+      </fieldset>
+      <fieldset>
+        <legend>mod 4</legend>
+        <button id="mod-source-4"></button>
+        <button id="mod-amt-4"></button>
+        <button id="mod-dest-4"></button>
+      </fieldset>
+      <fieldset>
+        <legend>mod wheel</legend>
+        <button id="mod-wheel-amt"></button>
+        <button id="mod-wheel-dest"></button>
+      </fieldset>
+      <fieldset>
+        <legend>pressure</legend>
+        <button id="pressure-amt"></button>
+        <button id="pressure-dest"></button>
+      </fieldset>
+      <fieldset>
+        <legend>breath</legend>
+        <button id="breath-amt"></button>
+        <button id="breath-dest"></button>
+      </fieldset>
+      <fieldset>
+        <legend>velocity</legend>
+        <button id="velocity-amt"></button>
+        <button id="velocity-dest"></button>
+      </fieldset>
+      <fieldset>
+        <legend>foot</legend>
+        <button id="foot-amt"></button>
+        <button id="foot-dest"></button>
+      </fieldset>
+    </form>
+  </body>
+</html>

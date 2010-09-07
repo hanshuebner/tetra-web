@@ -1,0 +1,190 @@
+Parm	Name	Short Name	GUI Title	Range	Type	Description	A	B	V1	V2	V3	V4	V1-4
+0	OSC 1 FREQ	O1F	freq	0-120	note	Oscillator 1 Frequency, 0 – 120 in semitones (10 octave range)	0						
+1	OSC 1 FREQ FINE	O1f	fine	0-100	fineTune	"Oscillator 1 Fine Tune; 0 = -50 cents, 50 = 0 (centered), 100 = + 50 cents"	1						
+2	OSC 1 SHAPE	O1S	shape	0-103	oscillatorShape	"Oscillator 1 Shape
+0 Oscillator Off
+1 Sawtooth
+2 Triangle
+3 Sawtooth/triangle mix
+4 – 103 Pulse Wave, Pulse width 0 – 99"	2						
+3	GLIDE 1	O1G	glide	0-127		Oscillator 1 Glide	3						
+4	OSC 1 KEY	O1K	key	0-1	onOff	Oscillator 1 Keyboard Off/On	4						
+6	OSC 2 FREQ	O2F	freq	0-120	note	Oscillator 2 Frequency, 0 – 120 in semitones (10 octave range)	5						
+7	OSC 2 FREQ FINE	O2f	fine	0-100	fineTune	"Oscillator 2 Fine Tune; 0 = -50 cents, 50 = 0 (centered), 100 = + 50 cents"	6						
+8	OSC 2 SHAPE	O2S	shape	0-103	oscillatorShape	"Oscillator 2 Shape
+0 Oscillator Off
+1 Sawtooth
+2 Triangle
+3 Sawtooth/triangle mix
+4 – 103 Pulse Wave, Pulse width 0 – 99 Pulse width 0 – 99"	7						
+9	GLIDE 2	O2G	glide	0-127		Oscillator 2 Glide	8						
+10	OSC 2 KEY	O2K	key	0-1	onOff	Oscillator 2 Keyboard Off/On	9						
+12	SYNC	SYN	sync	0-1	onOff	Sync off/on	10						
+13	GLIDE MODE	GLI	glide mode	0-3	glideMode	"Glide Mode:
+0 fixed rate
+1 fixed rate auto
+2 fixed time
+3 fixed time auto"	11						
+14	OSC SLOP	OSL	slop	0-5		Oscillator Slop	12						
+16	OSC MIX	OSM	mix	0-127		Oscillator 1 - 2 Mix	13						
+17	NOISE LEVEL	NOI	noise	0-127		Noise Level	14						
+20	FILTER FREQ	FF	freq	0-164	note	Filter Frequency, steps in semitones	15						
+21	RESONANCE	FR	reso	0-127		Resonance	16						
+22	FIL KEY AMT	FKA	key amt	0-127		Filter Keyboard Amount	17						
+23	FIL AUDIO MOD	FAM	audio mod	0-127		Filter Audio Modulation	18						
+24	FILTER POLES	FP	poles	0-1	filterPoles	"Filter Poles 0: 2-pole; 1: 4-pole"	19						
+25	FILTER ENV AMT	FEA	env amt	0-254	posNegAmount	"Filter Envelope Amount; -127 to +127"	20						
+26	FIL ENV VEL AMT	FVA	env vel amt	0-127		Filter Envelope Velocity Amount	21						
+27	FIL DEL	FDL	delay	0-127		Filter Envelope Delay	22						
+28	FIL ATT	FAT	attack	0-127		Filter Envelope Attack	23						
+29	FIL DEC	FDE	decay	0-127		Filter Envelope Decay	24						
+30	FIL SUS	FSU	sustain	0-127		Filter Envelope Sustain	25						
+31	FIL REL	FRE	release	0-127		Filter Envelope Release	26						
+32	VCA LEVEL	VLV	level	0-127		VCA Initial Level	27						
+40	OUTPUT PAN	PAN	spread	0-127		Output Spread	28						
+41	PRESET VOLUME	VOL	volume	0-127		Voice Volume	29			x		x	x
+33	VCA ENV AMOUNT	VEA	env amt	0-127		VCA Envelope Amount	30						
+34	VCA ENV VEL AMT	VEV	env vel amt	0-127		VCA Envelope Velocity Amount	31
+35	VCA DEL	VDL	delay	0-127		VCA Envelope Delay	32
+36	VCA ATT	VAT	attack	0-127		VCA Envelope Attack	33
+37	VCA DEC	VDE	decay	0-127		VCA Envelope Decay	34
+38	VCA SUS	VSU	sustain	0-127		VCA Envelope Sustain	35
+39	VCA REL	VRE	release	0-127		VCA Envelope Release	36
+42	LFO 1 FREQ	L1F	freq	0-166	lfoFrequency	"LFO 1 Frequency
+0 – 150 unsynced frequencies
+151 Sequence speed divided by 32
+152 Sequence speed divided by 16
+153 Sequence speed divided by 8
+154 Sequence speed divided by 6
+155 Sequence speed divided by 4
+156 Sequence speed divided by 3
+157 Sequence speed divided by 2
+158 Sequence speed divided by 1.5
+159 One cycle per step
+160 Two cycles per three steps
+161 Two cycles per step
+162 One cycles per three steps
+163 Four cycles per step
+164 Six cycles per step
+165 Eight cycles per step
+166 Sixteen cycles per step"	37
+43	LFO 1 SHAPE	L1S	shape	0-4	lfoShape	"LFO 1 Shape
+0 Triangle
+1 Reverse Sawtooth
+2 Sawtooth
+3 Pulse (square)
+4 Random"	38
+44	LFO 1 AMT	L1A	amt	0-127		LFO 1 Amount	39
+45	LFO 1 DEST	L1D	dest	0-47	modulationDestination	LFO 1 Mod Destination	40
+46	LFO 1 SYNC	L1s	sync	0-1	onOff	LFO 1 Key Sync Off/On	41
+47	LFO 2 FREQ	L2F	freq	0-166	lfoFrequency	"LFO 2 Frequency; same as LFO 1"	42
+48	LFO 2 SHAPE	L2S	shape	0-4	lfoShape	"LFO 2 Shape; same as LFO 1"	43
+49	LFO 2 AMT	L2A	amt	0-127		LFO 2 Amount	44
+50	LFO 2 DEST	L2D	dest	0-47	modulationDestination	LFO 2 Mod Destination	45
+51	LFO 2 SYNC	L2s	sync	0-1	onOff	LFO 2 Key Sync Off/On	46
+52	LFO 3 FREQ	L3F	freq	0-166	lfoFrequency	"LFO 3 Frequency; same as LFO 1"	47
+53	LFO 3 SHAPE	L3S	shape	0-4	lfoShape	"LFO 3 Shape; same as LFO 1"	48
+54	LFO 3 AMT	L3A	amt	0-127		LFO 3 Amount	49
+55	LFO 3 DEST	L3D	dest	0-47	modulationDestination	LFO 3 Mod Destination	50
+56	LFO 3 SYNC	L3s	sync	0-1	onOff	LFO 3 Key Sync Off/On	51
+57	LFO 4 FREQ	L4F	freq	0-166	lfoFrequency	"LFO 4 Frequency; same as LFO 1"	52
+58	LFO 4 SHAPE	L4S	shape	0-4	lfoShape	"LFO 4 Shape; same as LFO 1"	53
+59	LFO 4 AMT	L4A	amt	0-127		LFO 4 Amount	54
+60	LFO 4 DEST	L4D	dest	0-47	modulationDestination	LFO 4 Mod Destination	55
+61	LFO 4 SYNC	L4s	sync	0-1	onOff	LFO 4 Key Sync Off/On	56
+62	ENV3 DEST	ED	dest	0-47	modulationDestination	Envelope 3 Mod Destination	57
+63	ENV3 AMT	EA	amt	0-254	posNegAmount	"Envelope 3 Amount; -127 to +127"	58
+64	ENV 3 VEL AMT	EVA	vel amt	0-127		Envelope 3 Velocity Amount	59
+65	ENV 3 DELAY	EDE	delay	0-127		Envelope 3 Delay	60
+66	ENV3 ATT	EAT	attack	0-127		Envelope 3 Attack	61
+67	ENV3 DEC	EDE	decay	0-127		Envelope 3 Decay	62
+68	ENV3 SUS	ESU	sustain	0-127		Envelope 3 Sustain	63
+69	ENV3 REL	ERE	release	0-127		Envelope 3 Release	64
+71	MOD SOURCE 1	M1S	source	0-20	modulationSource	Mod 1 Source	65
+72	MOD AMT 1	M1A	amt	0-254	posNegAmount	"Mod 1 Amount; -127 to +127"	66
+73	MOD DEST 1	MD1	dest	0-47	modulationDestination	Mod 1 Destination	67
+74	MOD SOURCE 2	M2S	source	0-20	modulationSource	Mod 2 Source	68
+75	MOD AMT 2	M2A	amt	0-254	posNegAmount	"Mod 2 Amount; -127 to +127"	69
+76	MOD DEST 2	M2D	dest	0-47	modulationDestination	Mod 2 Destination	70
+77	MOD SOURCE 3	M3S	source	0-20	modulationSource	Mod 3 Source	71
+78	MOD AMT 3	M3A	amt	0-254	posNegAmount	"Mod3 Amount; -127 to +127"	72
+79	MOD DEST 3	M3D	dest	0-47	modulationDestination	Mod 3 Destination	73
+80	MOD SOURCE 4	M4S	source	0-20	modulationSource	Mod 4 Source	74
+81	MOD AMT 4	M4A	amt	0-254	posNegAmount	"Mod 4 Amount; -127 to +127"	75
+82	MOD DEST 4	M4D	dest	0-47	modulationDestination	Mod 4 Destination	76
+107	SEQ 1 DEST	S1D	dest	0-47	modulationDestination	Sequence 1 Destination	77
+108	SEQ 2 DEST	S2D	dest	0-47	modulationDestination	Sequence 2 Destination	78
+109	SEQ 3 DEST	S3D	dest	0-47	modulationDestination	Sequence 3 Destination	79
+110	SEQ 4 DEST	S4D	dest	0-47	modulationDestination	Sequence 4 Destination	80
+83	MOD WHEEL AMT	MWA	amt	0-254	posNegAmount	"Mod Wheel Amount; -127 to +127"	81
+84	MOD WHEEL DEST	MWD	dest	0-47	modulationDestination	Mod Wheel Destination	82
+85	PRESSURE AMT	PRA	amt	0-254	posNegAmount	"Pressure Amount; -127 to +127"	83
+86	PRESSURE DEST	PRD	dest	0-47	modulationDestination	Pressure Destination	84
+87	BREATH AMT	BRA	amt	0-254	posNegAmount	"Breath Amount; -127 to +127"	85
+88	BREATH DEST	BRD	dest	0-47	modulationDestination	Breath Destination	86
+89	VELOCITY AMT	VEA	amt	0-254	posNegAmount	"Velocity Amount; -127 to +127"	87
+90	VELOCITY DEST	VED	dest	0-47	modulationDestination	Velocity Destination	88
+91	FOOT AMT	FOA	amt	0-254	posNegAmount	"Foot Control Amount; -127 to +127"	89
+92	FOOT DEST	FOD	dest	0-47	modulationDestination	Foot Control Destination	90
+101	TEMPO	BPM	tempo	30-250		BPM tempo	91
+102	TIME SIG	TSG	sig	0-12	timeSignature	"Clock Divide:
+Half Note
+Quarter Note
+Eighth Note
+Eighth Note half swing
+Eighth Note full swing
+Eighth Note triplets
+Sixteenth Note
+Sixteenth Note half swing
+Sixteenth Note full swing
+Sixteenth Note triplets
+Thirty-second Notes
+Thirty-second Notes triplets
+Sixty-Fourth note triplets"	92
+15	PBEND RANGE	PBR	pb range	0-12		Pitch Bend Range	93
+105	SEQ TRIGGER	STR		0-4	sequencerTrigger	"Sequencer Trigger:
+0 Normal
+1 Normal, no reset
+2 No gate
+3 No gate/no reset
+4 key step"	94
+94	UNISON ASSIGN	UAS		0-5	keyMode	"Key Mode:
+0 Low note priority
+1 Low note priority with re-trigger
+2 High note priority
+3 High note priority with re-trigger
+4 Last note hit priority
+5 Last note hit priority with re-trigger"	95						
+93	UNISON MODE	UMO		0-4	unisonMode	"Unison Mode:
+0 1 voice
+1 All voices
+2 All voices detune1
+3 All voices detune2
+4 All voices detune3"	96						
+103	ARP MODE	ARM		0-3	arpeggiatorMode	"Arpeggiator Mode:
+0 Up
+1 Down
+2 Up/Down,
+3 Assign"	97						
+70	ENV3 REPEAT	ERP	repeat	0-1	onOff	"Envelope 3 Repeat Mode; off/on"	98						
+95	UNISON ON OFF	UEN	unison	0-1	onOff	"Unison; off/on"	99			x	x	x	x
+104	ARP ON OFF	ARE	arp	0-1	onOff	"Arpeggiator; off/on"	100			x	x	x	x
+106	SEQ ON OFF	SEN	seq	0-1	onOff	"Gated Sequencer; off/on"	101						
+							102						
+							103						
+							104						
+111	PARAM ENC SEL V1	PV1		0-183		Assignable Parameter 1	105	x		x	x	x	x
+112	PARAM ENC SEL V2	PV2		0-183		Assignable Parameter 2	106	x		x	x	x	x
+113	PARAM ENC SEL V3	PV3		0-183		Assignable Parameter 3	107	x		x	x	x	x
+114	PARAM ENC SEL V4	PV4		0-183		Assignable Parameter 4	108	x		x	x	x	x
+							109						
+19	FEEDBACK GAIN	FBG		0-127		Feedback Gain	110						
+96	PUSH IT NOTE	PUN		0-127	note	Push It Note: C0 to C10	111	
+97	PUSH IT VEL	PUV		0-127		Push It Velocity	112	
+98	PUSH IT MODE	PUM		0-1	pushItMode	Push It Mode: Normal, Toggle	113	
+5	SUB OSC 1 LVL	O1s		0-127		Sub Oscillator 1 Level	114	
+11	SUB OSC 2 LVL	O2s		0-127		Sub Oscillator 2 Level	115	
+18	FEEDBACK VOL	FBV		0-127		Feeback Volume	116	
+117	EDITOR BYTE	EDI		0-2		Editor Byte	117	x
+99	KBD SPLIT POINT	KSP		0-127	note	"Split Point; 60 = C3"	118	x
+100	KBD MODE	KMO		0-2		Keyboard Mode: Normal Stack Split	119	x

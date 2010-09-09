@@ -4,5 +4,14 @@ body {
 
 fieldset {
     display: inline;
+}
 
+.toggler {
+    height: 24px;
+    width: 60px;
+}
+
+.selector {
+    height: 24px;
+    width: 120px;
 }

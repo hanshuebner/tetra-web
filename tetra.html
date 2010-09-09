@@ -1,14 +1,16 @@
+
 <html>
   <head>
     <title>DSI TETR4</title>
     <link type="text/css" href="reset.css" rel="stylesheet" />
     <link type="text/css" href="tetra.css" rel="stylesheet" />
     <script type="application/javascript" src="lwc/utils.js"></script>
-    <script type="application/javascript" src="lwc/optionable.js"></script>
     <script type="application/javascript" src="lwc/control.js"></script>
+    <script type="application/javascript" src="lwc/control_extensions.js"></script>
     <script type="application/javascript" src="lwc/spinner.js"></script>
     <script type="application/javascript" src="lwc/toggler.js"></script>
     <script type="application/javascript" src="lwc/selector.js"></script>
+    <script type="application/javascript" src="lwc/slider.js"></script>
     <script type="text/javascript">MochiKit = {__export__: false};</script>
     <script type="application/javascript" src="MochiKit/MochiKit.js"></script>
     <script type="application/javascript" src="jquery-1.4.2.min.js"></script>
@@ -26,7 +28,7 @@
         <button id="osc-1-freq-fine"></button>
         <button id="osc-1-shape"></button>
         <button id="glide-1"></button>
-        <button id="osc-1-key"></button>
+        <button id="osc-1-key" class="toggler"></button>
       </fieldset>
       <fieldset>
         <legend>osc 2</legend>
@@ -34,11 +36,11 @@
         <button id="osc-2-freq-fine"></button>
         <button id="osc-2-shape"></button>
         <button id="glide-2"></button>
-        <button id="osc-2-key"></button>
+        <button id="osc-2-key" class="toggler"></button>
       </fieldset>
       <fieldset>
         <legend>osc</legend>
-        <button id="sync"></button>
+        <button id="sync" class="toggler"></button>
         <button id="glide-mode"></button>
         <button id="osc-slop"></button>
         <button id="osc-mix"></button>
@@ -81,7 +83,7 @@
         <button id="lfo-1-shape"></button>
         <button id="lfo-1-amt"></button>
         <button id="lfo-1-dest"></button>
-        <button id="lfo-1-sync"></button>
+        <button id="lfo-1-sync" class="toggler"></button>
       </fieldset>
       <fieldset>
         <legend>lfo 2</legend>
@@ -89,7 +91,7 @@
         <button id="lfo-2-shape"></button>
         <button id="lfo-2-amt"></button>
         <button id="lfo-2-dest"></button>
-        <button id="lfo-2-sync"></button>
+        <button id="lfo-2-sync" class="toggler"></button>
       </fieldset>
       <fieldset>
         <legend>lfo 3</legend>
@@ -97,7 +99,7 @@
         <button id="lfo-3-shape"></button>
         <button id="lfo-3-amt"></button>
         <button id="lfo-3-dest"></button>
-        <button id="lfo-3-sync"></button>
+        <button id="lfo-3-sync" class="toggler"></button>
       </fieldset>
       <fieldset>
         <legend>lfo 4</legend>
@@ -105,7 +107,7 @@
         <button id="lfo-4-shape"></button>
         <button id="lfo-4-amt"></button>
         <button id="lfo-4-dest"></button>
-        <button id="lfo-4-sync"></button>
+        <button id="lfo-4-sync" class="toggler"></button>
       </fieldset>
       <br/>
       <fieldset>

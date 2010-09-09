@@ -1,29 +1,38 @@
 var partial = MochiKit.Base.partial;
 var map = MochiKit.Base.map;
+var log = MochiKit.Logging.log;
 
 var tetraControl = {};
 
 function tetraToggler(id, title)
 {
     if (document.getElementById(id)) {
-        return new Toggler(id, { text: title, width: 60, height: 24, fontSize: 9 });
+        $('#' + id)
+            .css('height', '24px')
+            .css('width', '60px');
+        return new Toggler(id, { items: [ title, title ] });
     }
 }
 
 function tetraSelector(values, id)
 {
     if (document.getElementById(id)) {
+        $('#' + id)
+            .css('height', '24px')
+            .css('width', '60px');
         return new Selector(id,
-                            { items: values, height: 24 });
+                            { items: values });
     }
 }
 
-function tetraSpinner(externalMapping,
+function tetraSpinner(max,
+                      externalMapping,
                       id, title)
 {
     if (document.getElementById(id)) {
         return new Spinner(id,
                            { title: title,
+                                   stateCount: (max + 1),
                                    size: 40,
                                    height: 60,
                                    width: 80,
@@ -34,11 +43,12 @@ function tetraSpinner(externalMapping,
 function tetraSpinnerWithRange (min, max)
 {
     return partial(tetraSpinner,
-                   { fromFactor: function (factor) {
-                           return min + Math.floor(factor * (max - min));
-                       },
-                           toFactor: function (value) {
-                           return (value - min) / (max - min);
+                   (max - min),
+                   { toDisplay: function (state) {
+                           return min + state;
+                     },
+                     fromDisplay: function (value) {
+                           return value - min;
                        }
                    });
 };
@@ -47,27 +57,25 @@ var notes = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
 
 tetraControl.note
     = partial(tetraSpinner,
-              { fromFactor: function (factor) {
-                      var index = Math.floor(factor * 120);
+              120,
+              { toDisplay: function (index) {
                       var note = index % 12;
                       var octave = Math.floor(index / 12);
                       return notes[note] + octave;
-                  },
-                toFactor: function (value) {
-                      return 0;
-                  }
+                }
               });
                                     
 tetraControl.fineTune
     = partial(tetraSpinner,
-              { fromFactor: function (factor) {
-                      var index = Math.floor(factor * 100);
+              100,
+              { toDisplay: function (index) {
                       return -50 + index;
-                  },
-                toFactor: function (value) {
-                      var index = 50 + value;
-                      return Math.min(100, index) / 100;
-                  }
+                },
+                fromDisplay: function (value) {
+                      var index = 50 + parseInt(value);
+                      log('fromDisplay: ' + value + ' index: ' + index);
+                      return index;
+                }
               });
                                         
 tetraControl.oscillatorShape

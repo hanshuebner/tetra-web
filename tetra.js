@@ -2,26 +2,18 @@ var partial = MochiKit.Base.partial;
 var map = MochiKit.Base.map;
 var log = MochiKit.Logging.log;
 
-var tetraControl = {};
-
-function tetraToggler(id, title)
+function tetraToggler(labels, id, title)
 {
     if (document.getElementById(id)) {
-        $('#' + id)
-            .css('height', '24px')
-            .css('width', '60px');
-        return new Toggler(id, { items: [ title, title ] });
+        return new Toggler(id, { items: labels || [ title, title ] });
     }
 }
 
 function tetraSelector(values, id)
 {
     if (document.getElementById(id)) {
-        $('#' + id)
-            .css('height', '24px')
-            .css('width', '60px');
         return new Selector(id,
-                            { items: values });
+                            { items: values, fontSize: 10 });
     }
 }
 
@@ -34,8 +26,6 @@ function tetraSpinner(max,
                            { title: title,
                              stateCount: (max + 1),
                              size: 40,
-                             height: 60,
-                             width: 80,
                              externalMapping: externalMapping });
     }
 }
@@ -52,6 +42,8 @@ function tetraSpinnerWithRange (min, max)
                      }
                    });
 };
+
+var tetraControl = {};
 
 var notes = [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ];
 
@@ -91,9 +83,9 @@ tetraControl.oscillatorShape
                 }
               });
 
-tetraControl.onOff = partial(tetraToggler);
+tetraControl.onOff = partial(tetraToggler, null);
 tetraControl.glideMode = partial(tetraSelector, [ 'rate', 'rate auto', 'time', 'time auto' ]);
-tetraControl.filterPoles = partial(tetraSelector, [ '2 pole', '4 pole' ]);
+tetraControl.filterPoles = partial(tetraToggler, [ '2 pole', '4 pole' ]);
 tetraControl.posNegAmount
     = partial(tetraSpinner,
               254,
@@ -410,7 +402,7 @@ $(document).ready(function () {
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "lfo-1-amt",
-              "amt", 44, 39, false, false, false, false, false);
+              "amount", 44, 39, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "lfo-1-dest",
@@ -430,7 +422,7 @@ $(document).ready(function () {
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "lfo-2-amt",
-              "amt", 49, 44, false, false, false, false, false);
+              "amount", 49, 44, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "lfo-2-dest",
@@ -450,7 +442,7 @@ $(document).ready(function () {
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "lfo-3-amt",
-              "amt", 54, 49, false, false, false, false, false);
+              "amount", 54, 49, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "lfo-3-dest",
@@ -470,7 +462,7 @@ $(document).ready(function () {
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "lfo-4-amt",
-              "amt", 59, 54, false, false, false, false, false);
+              "amount", 59, 54, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "lfo-4-dest",
@@ -486,7 +478,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "env3-amt",
-              "amt", 63, 58, false, false, false, false, false);
+              "amount", 63, 58, false, false, false, false, false);
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "env3-vel-amt",
@@ -518,7 +510,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "mod-amt-1",
-              "amt", 72, 66, false, false, false, false, false);
+              "amount", 72, 66, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "mod-dest-1",
@@ -530,7 +522,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "mod-amt-2",
-              "amt", 75, 69, false, false, false, false, false);
+              "amount", 75, 69, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "mod-dest-2",
@@ -542,7 +534,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "mod-amt-3",
-              "amt", 78, 72, false, false, false, false, false);
+              "amount", 78, 72, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "mod-dest-3",
@@ -554,7 +546,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "mod-amt-4",
-              "amt", 81, 75, false, false, false, false, false);
+              "amount", 81, 75, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "mod-dest-4",
@@ -578,7 +570,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "mod-wheel-amt",
-              "amt", 83, 81, false, false, false, false, false);
+              "amount", 83, 81, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "mod-wheel-dest",
@@ -586,7 +578,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "pressure-amt",
-              "amt", 85, 83, false, false, false, false, false);
+              "amount", 85, 83, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "pressure-dest",
@@ -594,7 +586,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "breath-amt",
-              "amt", 87, 85, false, false, false, false, false);
+              "amount", 87, 85, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "breath-dest",
@@ -602,7 +594,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "velocity-amt",
-              "amt", 89, 87, false, false, false, false, false);
+              "amount", 89, 87, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "velocity-dest",
@@ -610,7 +602,7 @@ $(document).ready(function () {
     tetraControl.posNegAmount
         .call(this,
               "foot-amt",
-              "amt", 91, 89, false, false, false, false, false);
+              "amount", 91, 89, false, false, false, false, false);
     tetraControl.modulationDestination
         .call(this,
               "foot-dest",

@@ -1,5 +1,10 @@
 body {
     font-family: Arial, sans-serif;
+    font-size: 10pt;
+}
+
+button {
+    font-size: 8pt;
 }
 
 fieldset {
@@ -7,11 +12,9 @@ fieldset {
 }
 
 .toggler {
-    height: 24px;
-    width: 60px;
+    height: 26px;
 }
 
 .selector {
-    height: 24px;
-    width: 120px;
+    height: 26px;
 }

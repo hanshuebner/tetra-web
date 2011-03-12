@@ -75,5 +75,6 @@
     (dotimes (i 200)
       (let ((def (aref params i)))
         (when def
-          (format t " ~S: ~D, ~%" (getf def :name) i))))))
+          (format t " ~S: ~D, ~%" (getf def :name) i))))
+    (format t "};~%~%")))
     

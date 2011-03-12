@@ -57,7 +57,6 @@
 (defun make-tetra-param-list ()
   (let ((params (make-array 200 :initial-element nil)))
     (do-with-tetra-parameters ()
-      (format t "~A ~A~%" name range)
       (destructuring-bind (min max) (cl-ppcre:split "-" range)
         (setf min (parse-integer min)
               max (parse-integer max))

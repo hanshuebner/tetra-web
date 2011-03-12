@@ -63,13 +63,13 @@
               max (parse-integer max))
         (setf (aref params nrpn)
               `(:name ,name
-                :def (format nil "{ name: ~S~@[, min: ~A~], max: ~A~@[, type: ~S~]~@[, supressA: ~*true~]~@[, supressV1: ~*true~]~
-                                  ~@[, supressV2: ~*true~]~@[, supressV3: ~*true~]~@[, supressV4: ~*true~] }"
-                             name (and (plusp min) min) max type suppress-b suppress-v1 suppress-v2 suppress-v3 suppress-v4)))))
+                      :def ,(format nil "{ name: ~S~@[, min: ~A~], max: ~A~@[, type: ~S~]~@[, supressA: ~*true~]~@[, supressV1: ~*true~]~
+                                         ~@[, supressV2: ~*true~]~@[, supressV3: ~*true~]~@[, supressV4: ~*true~] }"
+                                    name (and (plusp min) min) max type suppress-b suppress-v1 suppress-v2 suppress-v3 suppress-v4)))))
     (format t "var parameterDefinitions = [~%")
     (dotimes (i 200)
       (let ((def (aref params i)))
-        (format t "~:[undefined~;~:*~A~],~%" (and def (getf def :name)))))
+        (format t "~:[undefined~;~:*~A~],~%" (and def (getf def :def)))))
     (format t "];~%~%")
     (format t "var parameterNameMap = {~%")
     (dotimes (i 200)

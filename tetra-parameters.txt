@@ -1,22 +1,22 @@
 Parm	Name	Short Name	GUI Title	Range	Type	Description	A	B	V1	V2	V3	V4	V1-4
-0	OSC 1 FREQ	O1F	freq	0-120	note	Oscillator 1 Frequency, 0 – 120 in semitones (10 octave range)	0						
+0	OSC 1 FREQ	O1F	freq	0-120	note	Oscillator 1 Frequency, 0 - 120 in semitones (10 octave range)	0						
 1	OSC 1 FREQ FINE	O1f	fine	0-100	fineTune	"Oscillator 1 Fine Tune; 0 = -50 cents, 50 = 0 (centered), 100 = + 50 cents"	1						
 2	OSC 1 SHAPE	O1S	shape	0-103	oscillatorShape	"Oscillator 1 Shape
 0 Oscillator Off
 1 Sawtooth
 2 Triangle
 3 Sawtooth/triangle mix
-4 – 103 Pulse Wave, Pulse width 0 – 99"	2						
+4 - 103 Pulse Wave, Pulse width 0 - 99"	2						
 3	GLIDE 1	O1G	glide	0-127		Oscillator 1 Glide	3						
 4	OSC 1 KEY	O1K	key	0-1	onOff	Oscillator 1 Keyboard Off/On	4						
-6	OSC 2 FREQ	O2F	freq	0-120	note	Oscillator 2 Frequency, 0 – 120 in semitones (10 octave range)	5						
+6	OSC 2 FREQ	O2F	freq	0-120	note	Oscillator 2 Frequency, 0 - 120 in semitones (10 octave range)	5						
 7	OSC 2 FREQ FINE	O2f	fine	0-100	fineTune	"Oscillator 2 Fine Tune; 0 = -50 cents, 50 = 0 (centered), 100 = + 50 cents"	6						
 8	OSC 2 SHAPE	O2S	shape	0-103	oscillatorShape	"Oscillator 2 Shape
 0 Oscillator Off
 1 Sawtooth
 2 Triangle
 3 Sawtooth/triangle mix
-4 – 103 Pulse Wave, Pulse width 0 – 99 Pulse width 0 – 99"	7						
+4 - 103 Pulse Wave, Pulse width 0 - 99 Pulse width 0 - 99"	7						
 9	GLIDE 2	O2G	glide	0-127		Oscillator 2 Glide	8						
 10	OSC 2 KEY	O2K	key	0-1	onOff	Oscillator 2 Keyboard Off/On	9						
 12	SYNC	SYN	sync	0-1	onOff	Sync off/on	10						
@@ -51,7 +51,7 @@ Parm	Name	Short Name	GUI Title	Range	Type	Description	A	B	V1	V2	V3	V4	V1-4
 38	VCA SUS	VSU	sustain	0-127		VCA Envelope Sustain	35
 39	VCA REL	VRE	release	0-127		VCA Envelope Release	36
 42	LFO 1 FREQ	L1F	freq	0-166	lfoFrequency	"LFO 1 Frequency
-0 – 150 unsynced frequencies
+0 - 150 unsynced frequencies
 151 Sequence speed divided by 32
 152 Sequence speed divided by 16
 153 Sequence speed divided by 8
@@ -188,3 +188,67 @@ Sixty-Fourth note triplets"	92
 117	EDITOR BYTE	EDI		0-2		Editor Byte	117	x
 99	KBD SPLIT POINT	KSP		0-127	note	"Split Point; 60 = C3"	118	x
 100	KBD MODE	KMO		0-2		Keyboard Mode: Normal Stack Split	119	x
+120	SEQ TRACK 1 STEP 1	101		0-127	seqTrack1		120
+121	SEQ TRACK 1 STEP 2	102		0-127	seqTrack1		121
+122	SEQ TRACK 1 STEP 3	103		0-127	seqTrack1		122
+123	SEQ TRACK 1 STEP 4	104		0-127	seqTrack1		123
+124	SEQ TRACK 1 STEP 5	105		0-127	seqTrack1		124
+125	SEQ TRACK 1 STEP 6	106		0-127	seqTrack1		125
+126	SEQ TRACK 1 STEP 7	107		0-127	seqTrack1		126
+127	SEQ TRACK 1 STEP 8	108		0-127	seqTrack1		127
+128	SEQ TRACK 1 STEP 9	109		0-127	seqTrack1		128
+129	SEQ TRACK 1 STEP 10	110		0-127	seqTrack1		129
+130	SEQ TRACK 1 STEP 11	111		0-127	seqTrack1		130
+131	SEQ TRACK 1 STEP 12	112		0-127	seqTrack1		131
+132	SEQ TRACK 1 STEP 13	113		0-127	seqTrack1		132
+133	SEQ TRACK 1 STEP 14	114		0-127	seqTrack1		133
+134	SEQ TRACK 1 STEP 15	115		0-127	seqTrack1		134
+135	SEQ TRACK 1 STEP 16	116		0-127	seqTrack1		135
+136	SEQ TRACK 2 STEP 1	201		0-126	seqTrack234		136
+137	SEQ TRACK 2 STEP 2	202		0-126	seqTrack234		137
+138	SEQ TRACK 2 STEP 3	203		0-126	seqTrack234		138
+139	SEQ TRACK 2 STEP 4	204		0-126	seqTrack234		139
+140	SEQ TRACK 2 STEP 5	205		0-126	seqTrack234		140
+141	SEQ TRACK 2 STEP 6	206		0-126	seqTrack234		141
+142	SEQ TRACK 2 STEP 7	207		0-126	seqTrack234		142
+143	SEQ TRACK 2 STEP 8	208		0-126	seqTrack234		143
+144	SEQ TRACK 2 STEP 9	209		0-126	seqTrack234		144
+145	SEQ TRACK 2 STEP 10	200		0-126	seqTrack234		145
+146	SEQ TRACK 2 STEP 11	211		0-126	seqTrack234		146
+147	SEQ TRACK 2 STEP 12	212		0-126	seqTrack234		147
+148	SEQ TRACK 2 STEP 13	213		0-126	seqTrack234		148
+149	SEQ TRACK 2 STEP 14	214		0-126	seqTrack234		149
+150	SEQ TRACK 2 STEP 15	215		0-126	seqTrack234		150
+151	SEQ TRACK 2 STEP 16	216		0-126	seqTrack234		151
+152	SEQ TRACK 3 STEP 1	301		0-126	seqTrack234		152
+153	SEQ TRACK 3 STEP 2	302		0-126	seqTrack234		153
+154	SEQ TRACK 3 STEP 3	303		0-126	seqTrack234		154
+155	SEQ TRACK 3 STEP 4	304		0-126	seqTrack234		155
+156	SEQ TRACK 3 STEP 5	305		0-126	seqTrack234		156
+157	SEQ TRACK 3 STEP 6	306		0-126	seqTrack234		157
+158	SEQ TRACK 3 STEP 7	307		0-126	seqTrack234		158
+159	SEQ TRACK 3 STEP 8	308		0-126	seqTrack234		159
+160	SEQ TRACK 3 STEP 9	309		0-126	seqTrack234		160
+161	SEQ TRACK 3 STEP 10	300		0-126	seqTrack234		161
+162	SEQ TRACK 3 STEP 11	311		0-126	seqTrack234		162
+163	SEQ TRACK 3 STEP 12	312		0-126	seqTrack234		163
+164	SEQ TRACK 3 STEP 13	313		0-126	seqTrack234		164
+165	SEQ TRACK 3 STEP 14	314		0-126	seqTrack234		165
+166	SEQ TRACK 3 STEP 15	315		0-126	seqTrack234		166
+167	SEQ TRACK 3 STEP 16	316		0-126	seqTrack234		167
+168	SEQ TRACK 4 STEP 1	401		0-126	seqTrack234		168
+169	SEQ TRACK 4 STEP 2	402		0-126	seqTrack234		169
+170	SEQ TRACK 4 STEP 3	403		0-126	seqTrack234		170
+171	SEQ TRACK 4 STEP 4	404		0-126	seqTrack234		171
+172	SEQ TRACK 4 STEP 5	405		0-126	seqTrack234		172
+173	SEQ TRACK 4 STEP 6	406		0-126	seqTrack234		173
+174	SEQ TRACK 4 STEP 7	407		0-126	seqTrack234		174
+175	SEQ TRACK 4 STEP 8	408		0-126	seqTrack234		175
+176	SEQ TRACK 4 STEP 9	409		0-126	seqTrack234		176
+177	SEQ TRACK 4 STEP 10	400		0-126	seqTrack234		177
+178	SEQ TRACK 4 STEP 11	411		0-126	seqTrack234		178
+179	SEQ TRACK 4 STEP 12	412		0-126	seqTrack234		179
+180	SEQ TRACK 4 STEP 13	413		0-126	seqTrack234		180
+181	SEQ TRACK 4 STEP 14	414		0-126	seqTrack234		181
+182	SEQ TRACK 4 STEP 15	415		0-126	seqTrack234		182
+183	SEQ TRACK 4 STEP 16	416		0-126	seqTrack234		183

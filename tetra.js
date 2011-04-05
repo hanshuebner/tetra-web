@@ -4,14 +4,18 @@ var log = MochiKit.Logging.log;
 
 function tetraToggler(labels, id, title)
 {
-    if (document.getElementById(id)) {
+    var element = document.getElementById(id);
+    if (element) {
+        $(element).addClass('toggler');
         return new Toggler(id, { items: labels || [ title, title ] });
     }
 }
 
 function tetraSelector(values, id)
 {
-    if (document.getElementById(id)) {
+    var element = document.getElementById(id);
+    if (element) {
+        $(element).addClass('selector');
         return new Selector(id,
                             { items: values, fontSize: 10 });
     }
@@ -21,7 +25,9 @@ function tetraSpinner(max,
                       externalMapping,
                       id, title)
 {
-    if (document.getElementById(id)) {
+    var element = document.getElementById(id);
+    if (element) {
+        $(element).addClass('spinner');
         return new Spinner(id,
                            { title: title,
                              stateCount: (max + 1),

@@ -19,6 +19,7 @@
     <script type="application/javascript" src="/lib/log.js"></script>
     <script type="application/javascript" src="midi/midi-utils.js"></script>
     <script type="application/javascript" src="tetra.js"></script>
+    <script type="application/javascript" src="/socket.io/socket.io.js"></script> 
   </head>
   <body>
     <form onsubmit="return false;">
@@ -172,6 +173,10 @@
         <button id="foot-amt"></button>
         <button id="foot-dest" class="selector"></button>
       </fieldset>
+      <fieldset>
+        <legend>sequencer</legend>
+        <button id="tempo"></button>
+        <button id="sig"></button>
     </form>
   </body>
 </html>

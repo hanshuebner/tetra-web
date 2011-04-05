@@ -2,12 +2,49 @@ var partial = MochiKit.Base.partial;
 var map = MochiKit.Base.map;
 var log = MochiKit.Logging.log;
 
+var controls = {};
+var socket;
+
+function controlChanged(internalValue, externalValue, state)
+{
+    console.log('id', this.getButtonElement().id, 'internalValue', internalValue, 'externalValue', externalValue, 'state', state);
+    if (socket) {
+        socket.send('set ' + this.getButtonElement().id + ' ' + externalValue);
+    }
+}
+
+function processSocketMessage (message) {
+    console.log('socket message', message);
+    var args = message.split(/ +/);
+    var command = args.shift();
+    switch (command) {
+    case 'set':
+        var name = args.shift();
+        var value = args.shift();
+        if (controls[name]) {
+            try {
+                controls[name].setExternalValue(value);
+                socket.send('ok');
+            }
+            catch (e) {
+                socket.send("error can't set control " + name + ' to ' + value + ': ' + e);
+            }
+        } else {
+            socket.send('error unknown control');
+        }
+        break;
+    default:
+        socket.send('error unknown command ' + command);
+    }
+}
+
 function tetraToggler(labels, id, title)
 {
     var element = document.getElementById(id);
     if (element) {
         $(element).addClass('toggler');
-        return new Toggler(id, { items: labels || [ title, title ] });
+        controls[id] = new Toggler(id, { items: labels || [ title, title ],
+                                         onchange: controlChanged });
     }
 }
 
@@ -16,8 +53,10 @@ function tetraSelector(values, id)
     var element = document.getElementById(id);
     if (element) {
         $(element).addClass('selector');
-        return new Selector(id,
-                            { items: values, fontSize: 10 });
+        controls[id] = new Selector(id,
+                                    { items: values,
+                                      fontSize: 10,
+                                      onchange: controlChanged });
     }
 }
 
@@ -28,11 +67,12 @@ function tetraSpinner(max,
     var element = document.getElementById(id);
     if (element) {
         $(element).addClass('spinner');
-        return new Spinner(id,
-                           { title: title,
-                             stateCount: (max + 1),
-                             size: 40,
-                             externalMapping: externalMapping });
+        controls[id] = new Spinner(id,
+                                   { title: title,
+                                     stateCount: (max + 1),
+                                     size: 40,
+                                     externalMapping: externalMapping,
+                                     onchange: controlChanged });
     }
 }
 
@@ -713,4 +753,11 @@ $(document).ready(function () {
         .call(this,
               "kbd-mode",
               "KBD MODE", 100, 119, true, false, false, false, false);
+
+    socket = new io.Socket("localhost"); 
+
+    socket.connect();
+    socket.on('connect', function() { console.log('socket connected'); });
+    socket.on('message', processSocketMessage);
+    socket.on('disconnect', function() { console.log('socket disconnect'); });
 });

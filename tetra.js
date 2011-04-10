@@ -5,10 +5,12 @@ var log = MochiKit.Logging.log;
 var controls = {};
 var socket;
 
+var internalChange = false;
+
 function controlChanged(internalValue, externalValue, state)
 {
     console.log('id', this.getButtonElement().id, 'internalValue', internalValue, 'externalValue', externalValue, 'state', state);
-    if (socket) {
+    if (socket && !internalChange) {
         socket.send('set ' + this.getButtonElement().id + ' ' + internalValue);
     }
 }
@@ -23,7 +25,9 @@ function processSocketMessage (message) {
         var value = args.shift();
         if (controls[name]) {
             try {
+                internalChange = true;
                 controls[name].setExternalValue(value);
+                internalChange = false;
             }
             catch (e) {
                 console.log("error can't set control " + name + ' to ' + value + ': ' + e);

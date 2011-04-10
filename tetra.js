@@ -9,7 +9,7 @@ function controlChanged(internalValue, externalValue, state)
 {
     console.log('id', this.getButtonElement().id, 'internalValue', internalValue, 'externalValue', externalValue, 'state', state);
     if (socket) {
-        socket.send('set ' + this.getButtonElement().id + ' ' + externalValue);
+        socket.send('set ' + this.getButtonElement().id + ' ' + internalValue);
     }
 }
 
@@ -24,17 +24,16 @@ function processSocketMessage (message) {
         if (controls[name]) {
             try {
                 controls[name].setExternalValue(value);
-                socket.send('ok');
             }
             catch (e) {
-                socket.send("error can't set control " + name + ' to ' + value + ': ' + e);
+                console.log("error can't set control " + name + ' to ' + value + ': ' + e);
             }
         } else {
-            socket.send('error unknown control');
+            console.log('error unknown control');
         }
         break;
     default:
-        socket.send('error unknown command ' + command);
+        console.log('error unknown command ' + command);
     }
 }
 

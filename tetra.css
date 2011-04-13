@@ -48,3 +48,105 @@ button {
     width: 100px;
     height: 16px;
 }
+
+.adsr {
+    float: right;
+}
+
+.adsr-graph {
+    border: 1px solid #333;
+}
+
+fieldset.with-adsr {
+    width: 940px;
+}
+
+fieldset.lfo {
+    position: relative;
+    height: 90px;
+    width: 220px;
+}
+
+fieldset.lfo button {
+    position: absolute;
+}
+
+button.lfo-freq {
+    top: 30px;
+    left: 8px;
+}
+
+button.lfo-shape {
+    top: 30px;
+    left: 65px;
+}
+
+button.lfo-sync {
+    top: 50px;
+    left: 65px;
+}
+
+button.lfo-dest {
+    top: 70px;
+    left: 65px;
+}
+
+button.lfo-amt {
+    top: 30px;
+    left: 172px;
+}
+
+fieldset.mod-selector {
+    position: relative;
+    width: 220px;
+    height: 90px;
+}
+
+fieldset.mod-selector button {
+    position: absolute;
+}
+
+button.ms-source {
+    top: 30px;
+    left: 16px;
+}
+
+button.ms-dest {
+    top: 65px;
+    left: 16px;
+}
+
+button.ms-amount {
+    top: 30px;
+    left: 120px;
+}
+
+fieldset.midi-mod-selector {
+    width: 170px;
+}
+
+/* menu stuff */
+
+div.page {
+    display: none;
+}
+
+div.page div.title {
+    display: none;
+}
+
+#menu {
+    padding: 8px;
+}
+
+#menu button {
+    border: 1px solid #333;
+    font-size: 1.2em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    margin-right: 8px;
+}
+
+#menu button.active {
+    background-color: orange;
+}

@@ -1,6 +1,7 @@
 var partial = MochiKit.Base.partial;
 var map = MochiKit.Base.map;
 var log = MochiKit.Logging.log;
+var DOM = MochiKit.DOM;
 
 var controls = {};
 var socket;
@@ -9,14 +10,14 @@ var internalChange = false;
 
 function controlChanged(internalValue, externalValue, state)
 {
-    console.log('id', this.getButtonElement().id, 'internalValue', internalValue, 'externalValue', externalValue, 'state', state);
+//    console.log('id', this.getButtonElement().id, 'internalValue', internalValue, 'externalValue', externalValue, 'state', state);
     if (socket && !internalChange) {
         socket.send('set ' + this.getButtonElement().id + ' ' + internalValue);
     }
 }
 
 function processSocketMessage (message) {
-    console.log('socket message', message);
+//    console.log('socket message', message);
     var args = message.split(/ +/);
     var command = args.shift();
     switch (command) {
@@ -534,7 +535,7 @@ $(document).ready(function () {
               "vel amt", 64, 59, false, false, false, false, false);
     tetraSpinnerWithRange(0, 127)
         .call(this,
-              "env3-delay",
+              "env3-del",
               "delay", 65, 60, false, false, false, false, false);
     tetraSpinnerWithRange(0, 127)
         .call(this,
@@ -757,10 +758,68 @@ $(document).ready(function () {
               "kbd-mode",
               "KBD MODE", 100, 119, true, false, false, false, false);
 
-    socket = new io.Socket("localhost"); 
+    function reconnect() {
+        var host = document.location.host.replace(/:.*/, "");
+        console.log('connecting to', host);
+        socket = new io.Socket(host); 
+        socket.on('connect_failed', function(e) {
+            console.log('connection failed, reconnecting');
+            setTimeout(reconnect, 500);
+        });
+        socket.on('connect', function() {
+            console.log('socket connected');
+            socket.on('message', processSocketMessage);
+            socket.on('disconnect', function() {
+                console.log('socket disconnect, reconnecting');
+                setTimeout(reconnect, 500);
+            });
+        });
+        socket.connect();
+    }
 
-    socket.connect();
-    socket.on('connect', function() { console.log('socket connected'); });
-    socket.on('message', processSocketMessage);
-    socket.on('disconnect', function() { console.log('socket disconnect'); });
+    reconnect();
+
+    // Apparently, initializing SVG documents takes a moment, so defer
+    // trying to bind handlers until that has happened.
+    setTimeout(initAdsr, 500);
+
+    // Oh wow, I so love writing multi-page frameworks :)
+    $('div.page div.title').each(function () {
+        console.log('page: ', $(this).html());
+        var button = DOM.BUTTON(null, $(this).html());
+        button.page = this.parentNode;
+        $(button).bind('click', function () {
+            console.log('click, id', this.pageId);
+            $('div.page').css('display', 'none');
+            $('#menu button').removeClass('active');
+            $(this).addClass('active');
+            $(this.page).css('display', 'block');
+        });
+        $('#menu').append(button);
+    });
 });
+
+function initAdsr() {
+    $('.adsr-graph').map(function () {
+        var that = this;
+        map(function (id, handle) {
+            console.log('setting up id', id, 'handle', handle);
+            $('#' + id).bind('change', function () {
+                that.params[handle] = controls[id].getExternalValue();
+                that.getSVGDocument().drawEnvelope();
+            });
+        },
+            that.getAttribute('adsr-params').split(','),
+            ['delay', 'attack', 'decay', 'sustain', 'release']
+        );
+        var svgDoc = that.getSVGDocument();
+        svgDoc.onchange = function () {
+            var params = svgDoc.params;
+            log('change attack: ' + params.attack
+                + ' decay: ' + params.decay
+                + ' sustain: ' + params.sustain
+                + ' release: ' + params.release);
+        }
+        svgDoc.drawEnvelope();
+    });
+}

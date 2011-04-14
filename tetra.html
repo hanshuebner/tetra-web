@@ -15,6 +15,7 @@
     <script type="application/javascript" src="/lib/MochiKit/MochiKit.js"></script>
     <script type="application/javascript" src="/lib/jquery-1.4.3.min.js"></script>
     <script type="application/javascript" src="/lib/jquery.cookie.js"></script>
+    <script type="application/javascript" src="/lib/underscore.js"></script>
     <script type="application/javascript" src="/lib/save-state.js"></script>
     <script type="application/javascript" src="/lib/log.js"></script>
     <script type="application/javascript" src="midi/midi-utils.js"></script>
@@ -25,7 +26,7 @@
     <form onsubmit="return false;">
       <div id="menu"></div>
       <div class="page" id="osc-env">
-        <div class="title">oscillators and envelopes</div>
+        <div class="title">oscillators + envelopes</div>
         <fieldset>
           <legend>osc 1</legend>
           <button id="osc-1-freq"></button>
@@ -110,7 +111,7 @@
         </fieldset>
       </div>
       <div class="page" id="lfo-mod">
-        <div class="title">lfos and modulators</div>
+        <div class="title">lfos + modulators</div>
         <!-- lfos -->
         <fieldset class="lfo">
           <legend>lfo 1</legend>
@@ -199,12 +200,186 @@
         </fieldset>
       </div>
       <div class="page" id="seq">
-        <div class="title">sequencers</div>
+        <div class="title">sequencers + arpeggiator</div>
         <!-- sequencer -->
         <fieldset>
           <legend>sequencer</legend>
           <button id="tempo"></button>
           <button id="sig"></button>
+        </fieldset>
+        <br/>
+        <fieldset class="seq-steps">
+          <legend>sequencer 1</legend>
+          <button class="seq-dest"></button>
+          <button id="seq-0-0"></button>
+          <button id="seq-0-1"></button>
+          <button id="seq-0-2"></button>
+          <button id="seq-0-3"></button>
+          <button id="seq-0-4"></button>
+          <button id="seq-0-5"></button>
+          <button id="seq-0-6"></button>
+          <button id="seq-0-7"></button>
+          <button id="seq-0-8"></button>
+          <button id="seq-0-9"></button>
+          <button id="seq-0-10"></button>
+          <button id="seq-0-11"></button>
+          <button id="seq-0-12"></button>
+          <button id="seq-0-13"></button>
+          <button id="seq-0-14"></button>
+          <button id="seq-0-15"></button>
+          <br/>
+          <button class="seq-dest"></button>
+          <button id="seq-0-0-rest"></button>
+          <button id="seq-0-1-rest"></button>
+          <button id="seq-0-2-rest"></button>
+          <button id="seq-0-3-rest"></button>
+          <button id="seq-0-4-rest"></button>
+          <button id="seq-0-5-rest"></button>
+          <button id="seq-0-6-rest"></button>
+          <button id="seq-0-7-rest"></button>
+          <button id="seq-0-8-rest"></button>
+          <button id="seq-0-9-rest"></button>
+          <button id="seq-0-10-rest"></button>
+          <button id="seq-0-11-rest"></button>
+          <button id="seq-0-12-rest"></button>
+          <button id="seq-0-13-rest"></button>
+          <button id="seq-0-14-rest"></button>
+          <button id="seq-0-15-rest"></button>
+          <br/>
+          <button class="seq-dest" id="seq-1-dest"></button>
+          <button id="seq-0-0-reset"></button>
+          <button id="seq-0-1-reset"></button>
+          <button id="seq-0-2-reset"></button>
+          <button id="seq-0-3-reset"></button>
+          <button id="seq-0-4-reset"></button>
+          <button id="seq-0-5-reset"></button>
+          <button id="seq-0-6-reset"></button>
+          <button id="seq-0-7-reset"></button>
+          <button id="seq-0-8-reset"></button>
+          <button id="seq-0-9-reset"></button>
+          <button id="seq-0-10-reset"></button>
+          <button id="seq-0-11-reset"></button>
+          <button id="seq-0-12-reset"></button>
+          <button id="seq-0-13-reset"></button>
+          <button id="seq-0-14-reset"></button>
+          <button id="seq-0-15-reset"></button>
+        </fieldset>
+        <br/>
+        <fieldset class="seq-steps">
+          <legend>sequencer 2</legend>
+          <button class="seq-dest"></button>
+          <button id="seq-1-0"></button>
+          <button id="seq-1-1"></button>
+          <button id="seq-1-2"></button>
+          <button id="seq-1-3"></button>
+          <button id="seq-1-4"></button>
+          <button id="seq-1-5"></button>
+          <button id="seq-1-6"></button>
+          <button id="seq-1-7"></button>
+          <button id="seq-1-8"></button>
+          <button id="seq-1-9"></button>
+          <button id="seq-1-10"></button>
+          <button id="seq-1-11"></button>
+          <button id="seq-1-12"></button>
+          <button id="seq-1-13"></button>
+          <button id="seq-1-14"></button>
+          <button id="seq-1-15"></button>
+          <br/>
+          <button class="seq-dest" id="seq-2-dest"></button>
+          <button id="seq-1-0-reset"></button>
+          <button id="seq-1-1-reset"></button>
+          <button id="seq-1-2-reset"></button>
+          <button id="seq-1-3-reset"></button>
+          <button id="seq-1-4-reset"></button>
+          <button id="seq-1-5-reset"></button>
+          <button id="seq-1-6-reset"></button>
+          <button id="seq-1-7-reset"></button>
+          <button id="seq-1-8-reset"></button>
+          <button id="seq-1-9-reset"></button>
+          <button id="seq-1-10-reset"></button>
+          <button id="seq-1-11-reset"></button>
+          <button id="seq-1-12-reset"></button>
+          <button id="seq-1-13-reset"></button>
+          <button id="seq-1-14-reset"></button>
+          <button id="seq-1-15-reset"></button>
+        </fieldset>
+        <br/>
+        <fieldset class="seq-steps">
+          <legend>sequencer 3</legend>
+          <button class="seq-dest"></button>
+          <button id="seq-2-0"></button>
+          <button id="seq-2-1"></button>
+          <button id="seq-2-2"></button>
+          <button id="seq-2-3"></button>
+          <button id="seq-2-4"></button>
+          <button id="seq-2-5"></button>
+          <button id="seq-2-6"></button>
+          <button id="seq-2-7"></button>
+          <button id="seq-2-8"></button>
+          <button id="seq-2-9"></button>
+          <button id="seq-2-10"></button>
+          <button id="seq-2-11"></button>
+          <button id="seq-2-12"></button>
+          <button id="seq-2-13"></button>
+          <button id="seq-2-14"></button>
+          <button id="seq-2-15"></button>
+          <br/>
+          <button class="seq-dest" id="seq-3-dest"></button>
+          <button id="seq-2-0-reset"></button>
+          <button id="seq-2-1-reset"></button>
+          <button id="seq-2-2-reset"></button>
+          <button id="seq-2-3-reset"></button>
+          <button id="seq-2-4-reset"></button>
+          <button id="seq-2-5-reset"></button>
+          <button id="seq-2-6-reset"></button>
+          <button id="seq-2-7-reset"></button>
+          <button id="seq-2-8-reset"></button>
+          <button id="seq-2-9-reset"></button>
+          <button id="seq-2-10-reset"></button>
+          <button id="seq-2-11-reset"></button>
+          <button id="seq-2-12-reset"></button>
+          <button id="seq-2-13-reset"></button>
+          <button id="seq-2-14-reset"></button>
+          <button id="seq-2-15-reset"></button>
+        </fieldset>
+        <br/>
+        <fieldset class="seq-steps">
+          <legend>sequencer 4</legend>
+          <button class="seq-dest"></button>
+          <button id="seq-3-0"></button>
+          <button id="seq-3-1"></button>
+          <button id="seq-3-2"></button>
+          <button id="seq-3-3"></button>
+          <button id="seq-3-4"></button>
+          <button id="seq-3-5"></button>
+          <button id="seq-3-6"></button>
+          <button id="seq-3-7"></button>
+          <button id="seq-3-8"></button>
+          <button id="seq-3-9"></button>
+          <button id="seq-3-10"></button>
+          <button id="seq-3-11"></button>
+          <button id="seq-3-12"></button>
+          <button id="seq-3-13"></button>
+          <button id="seq-3-14"></button>
+          <button id="seq-3-15"></button>
+          <br/>
+          <button class="seq-dest" id="seq-4-dest"></button>
+          <button id="seq-3-0-reset"></button>
+          <button id="seq-3-1-reset"></button>
+          <button id="seq-3-2-reset"></button>
+          <button id="seq-3-3-reset"></button>
+          <button id="seq-3-4-reset"></button>
+          <button id="seq-3-5-reset"></button>
+          <button id="seq-3-6-reset"></button>
+          <button id="seq-3-7-reset"></button>
+          <button id="seq-3-8-reset"></button>
+          <button id="seq-3-9-reset"></button>
+          <button id="seq-3-10-reset"></button>
+          <button id="seq-3-11-reset"></button>
+          <button id="seq-3-12-reset"></button>
+          <button id="seq-3-13-reset"></button>
+          <button id="seq-3-14-reset"></button>
+          <button id="seq-3-15-reset"></button>
         </fieldset>
       </div>
     </form>

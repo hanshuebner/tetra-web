@@ -291,8 +291,13 @@ tetraControl.pushItMode
     = partial(tetraSelector, ['normal',
                               'toggle']);
 
-
 $(document).ready(function () {
+    // The ready function is called multiple times because of the embedded svg documents (?)
+    if (document.initialized) {
+        return;
+    }
+    document.initialized = true;
+
     tetraControl.note
         .call(this,
               "osc-1-freq",
@@ -802,6 +807,27 @@ $(document).ready(function () {
         $('#menu').append(button);
     });
     $(first).trigger('click');
+
+    _.each(_.range(4), function (seq) {
+        _.each(_.range(16), function (step) {
+            var id = "seq-" + seq + "-" + step;
+            tetraSpinnerWithRange(0, (seq == 0) ? 127 : 126)
+                .call(this,
+                      id,
+                      undefined, 120 + seq * 16 + step, 120 + seq * 16 + step,
+                      false, false, false, false, false);
+            tetraToggler(undefined,
+                         id + "-reset",
+                         "reset", 120 + seq * 16 + step, 120 + seq * 16 + step,
+                         false, false, false, false, false);
+            if (seq == 0) {
+                tetraToggler(undefined,
+                             id + "-rest",
+                             "rest", 120 + seq * 16 + step, 120 + seq * 16 + step,
+                             false, false, false, false, false);
+            }
+        });
+    });
 });
 
 function initAdsr() {

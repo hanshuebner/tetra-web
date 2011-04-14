@@ -125,6 +125,14 @@ fieldset.midi-mod-selector {
     width: 170px;
 }
 
+fieldset.seq-steps button {
+    width: 50px;
+}
+
+fieldset.seq-steps .seq-dest {
+    width: 120px;
+}
+
 /* menu stuff */
 
 div.page {

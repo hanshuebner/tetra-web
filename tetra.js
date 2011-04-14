@@ -8,14 +8,6 @@ var socket;
 
 var internalChange = false;
 
-function controlChanged(internalValue, externalValue, state)
-{
-//    console.log('id', this.getButtonElement().id, 'internalValue', internalValue, 'externalValue', externalValue, 'state', state);
-    if (socket && !internalChange) {
-        socket.send('set ' + this.getButtonElement().id + ' ' + internalValue);
-    }
-}
-
 function processSocketMessage (message) {
 //    console.log('socket message', message);
     var args = message.split(/ +/);
@@ -34,7 +26,7 @@ function processSocketMessage (message) {
                 console.log("error can't set control " + name + ' to ' + value + ': ' + e);
             }
         } else {
-            console.log('error unknown control');
+            console.log('error unknown control', name);
         }
         break;
     default:
@@ -47,8 +39,7 @@ function tetraToggler(labels, id, title)
     var element = document.getElementById(id);
     if (element) {
         $(element).addClass('toggler');
-        controls[id] = new Toggler(id, { items: labels || [ title, title ],
-                                         onchange: controlChanged });
+        controls[id] = new Toggler(id, { items: labels || [ title, title ] });
     }
 }
 
@@ -59,8 +50,7 @@ function tetraSelector(values, id)
         $(element).addClass('selector');
         controls[id] = new Selector(id,
                                     { items: values,
-                                      fontSize: 10,
-                                      onchange: controlChanged });
+                                      fontSize: 10 });
     }
 }
 
@@ -75,8 +65,7 @@ function tetraSpinner(max,
                                    { title: title,
                                      stateCount: (max + 1),
                                      size: 40,
-                                     externalMapping: externalMapping,
-                                     onchange: controlChanged });
+                                     externalMapping: externalMapping });
     }
 }
 
@@ -286,7 +275,18 @@ tetraControl.arpeggiatorMode
     = partial(tetraSelector, ['up',
                               'down',
                               'up/down',
-                              'assign']);
+                              'assign',
+                              'random',
+                              '2 octaves up',
+                              '2 octaves down',
+                              '2 octaves up-down',
+                              '2 octaves assign',
+                              '2 octaves random',
+                              '3 octaves up',
+                              '3 octaves down',
+                              '3 octaves up-down',
+                              '3 octaves assign',
+                              '3 octaves random']);
 tetraControl.pushItMode
     = partial(tetraSelector, ['normal',
                               'toggle']);
@@ -781,12 +781,13 @@ $(document).ready(function () {
         });
         socket.connect();
     }
+    $('button').bind('change', function () {
+        if (socket) {
+            socket.send('set ' + this.id + ' ' + this.control.getInternalValue());
+        }
+    });
 
     reconnect();
-
-    // Apparently, initializing SVG documents takes a moment, so defer
-    // trying to bind handlers until that has happened.
-    setTimeout(initAdsr, 500);
 
     // Oh wow, I so love writing multi-page frameworks :)
     var first;
@@ -810,7 +811,7 @@ $(document).ready(function () {
 
     _.each(_.range(4), function (seq) {
         _.each(_.range(16), function (step) {
-            var id = "seq-" + seq + "-" + step;
+            var id = "seq-track-" + (seq + 1) + "-step-" + (step + 1);
             tetraSpinnerWithRange(0, (seq == 0) ? 127 : 126)
                 .call(this,
                       id,
@@ -828,29 +829,33 @@ $(document).ready(function () {
             }
         });
     });
+
+    // Apparently, initializing SVG documents takes a moment, so defer
+    // trying to bind handlers until that has happened.
+    setTimeout(initAdsr, 1000);
 });
 
 function initAdsr() {
-    $('.adsr-graph').map(function () {
-        var that = this;
-        map(function (id, handle) {
-            console.log('setting up id', id, 'handle', handle);
+    function setupAdsr() {
+        var that = this.getSVGDocument();
+        that.paramElements = this.parentNode.getAttribute('adsr-params').split(',');
+        var keys = ['delay', 'attack', 'decay', 'sustain', 'release'];
+        map(function (id, key) {
+            that.params[key] = $('#' + id)[0].control.getInternalValue();
             $('#' + id).bind('change', function () {
-                that.params[handle] = controls[id].getExternalValue();
-                that.getSVGDocument().drawEnvelope();
+                that.params[key] = this.control.getInternalValue();
+                that.drawEnvelope();
             });
-        },
-            that.getAttribute('adsr-params').split(','),
-            ['delay', 'attack', 'decay', 'sustain', 'release']
-        );
-        var svgDoc = that.getSVGDocument();
-        svgDoc.onchange = function () {
-            var params = svgDoc.params;
-            log('change attack: ' + params.attack
-                + ' decay: ' + params.decay
-                + ' sustain: ' + params.sustain
-                + ' release: ' + params.release);
-        }
-        svgDoc.drawEnvelope();
-    });
+        }, that.paramElements, keys);
+        $(that).bind('change', function () {
+            var that = this;
+            map(function (key, id) {
+                $('#' + id)[0].control.setInternalValue(that.params[key]);
+            },
+                keys, this.paramElements);
+        });
+        that.drawEnvelope();
+    }
+    $('.adsr-graph embed').map(setupAdsr);
 }
+

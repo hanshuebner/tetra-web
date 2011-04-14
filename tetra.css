@@ -129,6 +129,10 @@ fieldset.seq-steps button {
     width: 50px;
 }
 
+fieldset.seq-steps .spinner {
+    height: 45px;
+}
+
 fieldset.seq-steps .seq-dest {
     width: 120px;
 }

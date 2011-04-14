@@ -784,10 +784,14 @@ $(document).ready(function () {
     setTimeout(initAdsr, 500);
 
     // Oh wow, I so love writing multi-page frameworks :)
+    var first;
     $('div.page div.title').each(function () {
         console.log('page: ', $(this).html());
         var button = DOM.BUTTON(null, $(this).html());
         button.page = this.parentNode;
+        if (!first) {
+            first = button;
+        }
         $(button).bind('click', function () {
             console.log('click, id', this.pageId);
             $('div.page').css('display', 'none');
@@ -797,6 +801,7 @@ $(document).ready(function () {
         });
         $('#menu').append(button);
     });
+    $(first).trigger('click');
 });
 
 function initAdsr() {

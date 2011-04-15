@@ -1,12 +1,13 @@
 var partial = MochiKit.Base.partial;
+var bind = MochiKit.Base.bind;
 var map = MochiKit.Base.map;
 var log = MochiKit.Logging.log;
 var DOM = MochiKit.DOM;
 
+// todo: mvc should be used instead
 var controls = {};
+var adsrParam = {};                                         // maps from parameter name to handling adsr graph
 var socket;
-
-var internalChange = false;
 
 function processSocketMessage (message) {
 //    console.log('socket message', message);
@@ -15,18 +16,19 @@ function processSocketMessage (message) {
     switch (command) {
     case 'set':
         var name = args.shift();
-        var value = args.shift();
+        var value = parseInt(args.shift());
         if (controls[name]) {
             try {
-                internalChange = true;
-                controls[name].setExternalValue(value);
-                internalChange = false;
+                controls[name].setInternalValue(value);
             }
             catch (e) {
                 console.log("error can't set control " + name + ' to ' + value + ': ' + e);
             }
         } else {
             console.log('error unknown control', name);
+        }
+        if (adsrParam[name]) {
+            adsrParam[name](name, value);
         }
         break;
     default:
@@ -763,24 +765,24 @@ $(document).ready(function () {
               "kbd-mode",
               "KBD MODE", 100, 119, true, false, false, false, false);
 
+    var host = document.location.host.replace(/:.*/, "");
+    socket = new io.Socket(host); 
     function reconnect() {
-        var host = document.location.host.replace(/:.*/, "");
         console.log('connecting to', host);
-        socket = new io.Socket(host); 
-        socket.on('connect_failed', function(e) {
-            console.log('connection failed, reconnecting');
-            setTimeout(reconnect, 500);
-        });
-        socket.on('connect', function() {
-            console.log('socket connected');
-            socket.on('message', processSocketMessage);
-            socket.on('disconnect', function() {
-                console.log('socket disconnect, reconnecting');
-                setTimeout(reconnect, 500);
-            });
-        });
         socket.connect();
     }
+    socket.on('connect_failed', function(e) {
+        console.log('connection failed, reconnecting');
+        setTimeout(reconnect, 500);
+    });
+    socket.on('connect', function() {
+        console.log('socket connected');
+    });
+    socket.on('message', processSocketMessage);
+    socket.on('disconnect', function() {
+        console.log('socket disconnect, reconnecting');
+        setTimeout(reconnect, 500);
+    });
     $('button').bind('change', function () {
         if (socket) {
             socket.send('set ' + this.id + ' ' + this.control.getInternalValue());
@@ -792,14 +794,12 @@ $(document).ready(function () {
     // Oh wow, I so love writing multi-page frameworks :)
     var first;
     $('div.page div.title').each(function () {
-        console.log('page: ', $(this).html());
         var button = DOM.BUTTON(null, $(this).html());
         button.page = this.parentNode;
         if (!first) {
             first = button;
         }
         $(button).bind('click', function () {
-            console.log('click, id', this.pageId);
             $('div.page').css('display', 'none');
             $('#menu button').removeClass('active');
             $(this).addClass('active');
@@ -839,9 +839,15 @@ function initAdsr() {
     function setupAdsr() {
         var that = this.getSVGDocument();
         that.paramElements = this.parentNode.getAttribute('adsr-params').split(',');
+        that.paramToKey = {};
         var keys = ['delay', 'attack', 'decay', 'sustain', 'release'];
+        that.set = function (key, parameter, value) {
+            this.params[key] = value;
+            this.drawEnvelope();
+        }
         map(function (id, key) {
             that.params[key] = $('#' + id)[0].control.getInternalValue();
+            adsrParam[id] = bind(that.set, that, key);
             $('#' + id).bind('change', function () {
                 that.params[key] = this.control.getInternalValue();
                 that.drawEnvelope();
@@ -850,7 +856,11 @@ function initAdsr() {
         $(that).bind('change', function () {
             var that = this;
             map(function (key, id) {
-                $('#' + id)[0].control.setInternalValue(that.params[key]);
+                var control = $('#' + id)[0].control;
+                if (control.getInternalValue() != that.params[key]) {
+                    control.setInternalValue(that.params[key]);
+                    socket.send('set ' + id + ' ' + that.params[key]);
+                }
             },
                 keys, this.paramElements);
         });

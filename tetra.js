@@ -812,7 +812,7 @@ $(document).ready(function () {
     _.each(_.range(4), function (seq) {
         _.each(_.range(16), function (step) {
             var id = "seq-track-" + (seq + 1) + "-step-" + (step + 1);
-            tetraSpinnerWithRange(0, (seq == 0) ? 127 : 126)
+            tetraSpinnerWithRange(0, 125)
                 .call(this,
                       id,
                       undefined, 120 + seq * 16 + step, 120 + seq * 16 + step,

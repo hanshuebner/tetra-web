@@ -3,6 +3,8 @@ var bind = MochiKit.Base.bind;
 var map = MochiKit.Base.map;
 var log = MochiKit.Logging.log;
 var DOM = MochiKit.DOM;
+var serializeJSON = MochiKit.Base.serializeJSON;
+var evalJSON = MochiKit.Base.evalJSON;
 
 var currentPath = '';
 // todo: mvc should be used instead
@@ -14,7 +16,7 @@ var allLabels = {};
 
 function processSocketMessage (message) {
 //    console.log('socket message', message);
-    var args = message.split(/ +/);
+    var args = evalJSON(message);
     var command = args.shift();
     switch (command) {
     case 'set':
@@ -788,7 +790,7 @@ $(document).ready(function () {
     });
     $('button').bind('change', function () {
         if (socket) {
-            socket.send('set ' + this.id + ' ' + this.control.getInternalValue());
+            socket.send(serializeJSON(['set', this.id, this.control.getInternalValue()]));
         }
     });
 
@@ -817,7 +819,8 @@ $(document).ready(function () {
 
     $('#preset-selector').bind('click', function () {
         var presetName = $(this).val();
-        socket.send('preset ' + allPresets[presetName].parameters);
+        console.log('sending preset', allPresets[presetName].parameters);
+        socket.send(serializeJSON(['preset', allPresets[presetName]]));
     });
     function showPresetsPage()
     {
@@ -948,7 +951,7 @@ function initAdsr() {
                 var control = $('#' + id)[0].control;
                 if (control.getInternalValue() != that.params[key]) {
                     control.setInternalValue(that.params[key]);
-                    socket.send('set ' + id + ' ' + that.params[key]);
+                    socket.send(serializeJSON(['set', id, that.params[key]]));
                 }
             },
                 keys, this.paramElements);

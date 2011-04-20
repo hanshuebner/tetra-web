@@ -16,7 +16,7 @@
                         (cl-ppcre:split "\\r"
                                         (cl-ppcre:regex-replace-all "\\n"
                                                                     (file-contents "tetra-parameters.txt"
-                                                                                   :external-format :cp437
+                                                                                   :external-format :iso-8859-1
                                                                                    :element-type 'character)
                                                                     ""))))
      (destructuring-bind (param name short-name gui-title
@@ -76,4 +76,9 @@
         (when def
           (format t " ~S: ~D, ~%" (getf def :name) i))))
     (format t "};~%~%")))
-    
+
+(defun make-tetra-param-nrpn-map ()
+  (format t "var paramToNrpn = {~%")
+  (do-with-tetra-parameters ()
+    (format t "  ~A: ~A,~%" param nrpn))
+  (format t "};~%"))

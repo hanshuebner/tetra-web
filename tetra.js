@@ -47,6 +47,7 @@ function tetraToggler(labels, id, title)
     if (element) {
         $(element).addClass('toggler');
         controls[id] = new Toggler(id, { items: labels || [ title, title ] });
+        return controls[id];
     }
 }
 
@@ -58,6 +59,7 @@ function tetraSelector(values, id)
         controls[id] = new Selector(id,
                                     { items: values,
                                       fontSize: 10 });
+        return controls[id];
     }
 }
 
@@ -73,6 +75,7 @@ function tetraSpinner(max,
                                      stateCount: (max + 1),
                                      size: 40,
                                      externalMapping: externalMapping });
+        return controls[id];
     }
 }
 
@@ -799,20 +802,51 @@ $(document).ready(function () {
     _.each(_.range(4), function (seq) {
         _.each(_.range(16), function (step) {
             var id = "seq-track-" + (seq + 1) + "-step-" + (step + 1);
-            tetraSpinnerWithRange(0, 125)
+            var spinner = tetraSpinnerWithRange(0, 125)
                 .call(this,
                       id,
                       undefined, 120 + seq * 16 + step, 120 + seq * 16 + step,
                       false, false, false, false, false);
-            tetraToggler(undefined,
-                         id + "-reset",
-                         "reset", 120 + seq * 16 + step, 120 + seq * 16 + step,
-                         false, false, false, false, false);
+            spinner.resetToggler = tetraToggler(undefined,
+                                                id + "-reset",
+                                                "reset", 120 + seq * 16 + step, 120 + seq * 16 + step,
+                                                false, false, false, false, false);
+            spinner.resetToggler.spinner = spinner;
+            $(spinner.resetToggler.getButtonElement()).bind('click', function () {
+                var spinner = this.control.spinner;
+                if (spinner.restToggler) {
+                    spinner.restToggler.setInternalValue(0);
+                }
+                spinner.setInternalValue(this.control.getInternalValue() ? 126 : 0);
+                $(spinner.getButtonElement()).trigger('changed');
+            });
             if (seq == 0) {
-                tetraToggler(undefined,
-                             id + "-rest",
-                             "rest", 120 + seq * 16 + step, 120 + seq * 16 + step,
-                             false, false, false, false, false);
+                spinner.restToggler = tetraToggler(undefined,
+                                                   id + "-rest",
+                                                   "rest", 120 + seq * 16 + step, 120 + seq * 16 + step,
+                                                   false, false, false, false, false);
+                spinner.restToggler.spinner = spinner;
+                $(spinner.restToggler.getButtonElement()).bind('click', function () {
+                    var spinner = this.control.spinner;
+                    spinner.resetToggler.setInternalValue(0);
+                    spinner.setInternalValue(this.control.getInternalValue() ? 127 : 0);
+                    $(spinner.getButtonElement()).trigger('changed');
+                });
+            }
+            spinner.realSetInternalValue = spinner.setInternalValue;
+            spinner.setInternalValue = function (value) {
+                console.log('spinner value', value);
+                if (value > 125) {
+                    spinner.setDisabled(true);
+                    spinner.realSetInternalValue(0);
+                } else {
+                    spinner.setDisabled(false);
+                    spinner.realSetInternalValue(value);
+                }
+                spinner.resetToggler.setInternalValue(value == 126);
+                if (spinner.restToggler) {
+                    spinner.restToggler.setInternalValue(value == 127);
+                }
             }
         });
     });
@@ -822,6 +856,7 @@ $(document).ready(function () {
         console.log('sending preset', allPresets[presetName].parameters);
         socket.send(serializeJSON(['preset', allPresets[presetName]]));
     });
+
     function showPresetsPage()
     {
         console.log('show presets page');
@@ -873,6 +908,17 @@ $(document).ready(function () {
         setTimeout(initAdsr, 500);
     });
 
+    $('#seq button.seq-spinner')
+        .each(function () {
+            $('#' + this.id + '-rest')
+                .bind('click', function () {
+                    console.log(this.id, 'clicked, value', this.control.getInternalValue());
+                });
+            $('#' + this.id + '-reset')
+                .bind('click', function () {
+                    console.log(this.id, 'clicked, value', this.control.getInternalValue());
+                });
+        });
 
     // Oh wow, I so love writing multi-page frameworks - Here is another one! :)
 

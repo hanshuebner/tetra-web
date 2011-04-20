@@ -159,6 +159,32 @@ div.page div.title {
     margin-right: 8px;
 }
 
-#menu button.active {
+button.active {
     background-color: orange;
+}
+
+#presets #file-selector {
+    width: 32em;
+}
+
+#presets #preset-selector {
+    width: 16em;
+}
+
+#presets #filter-labels {
+    display: inline;
+    border: 1px solid #333;
+    margin: 8px;
+    padding: 4px;
+    background-color: white;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    min-height: 16em;
+    max-width: 16em;
+}
+
+#presets #filter-labels button {
+    border: 1px solid #333;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
 }

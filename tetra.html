@@ -18,7 +18,7 @@
     <script type="application/javascript" src="/lib/underscore.js"></script>
     <script type="application/javascript" src="/lib/save-state.js"></script>
     <script type="application/javascript" src="/lib/log.js"></script>
-    <script type="application/javascript" src="midi/midi-utils.js"></script>
+<!--    <script type="application/javascript" src="midi/midi-utils.js"></script> -->
     <script type="application/javascript" src="tetra.js"></script>
     <script type="application/javascript" src="/socket.io/socket.io.js"></script> 
   </head>
@@ -387,6 +387,15 @@
           <button id="seq-track-4-step-14-reset"></button>
           <button id="seq-track-4-step-15-reset"></button>
           <button id="seq-track-4-step-16-reset"></button>
+        </fieldset>
+      </div>
+      <div class="page" id="presets">
+        <div class="title">presets</div>
+        <fieldset>
+          <legend>load preset</legend>
+          <div id="filter-labels"></div>
+          <select size="16" id="preset-selector">
+          </select>
         </fieldset>
       </div>
     </form>

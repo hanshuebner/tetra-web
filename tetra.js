@@ -4,10 +4,13 @@ var map = MochiKit.Base.map;
 var log = MochiKit.Logging.log;
 var DOM = MochiKit.DOM;
 
+var currentPath = '';
 // todo: mvc should be used instead
 var controls = {};
 var adsrParam = {};                                         // maps from parameter name to handling adsr graph
 var socket;
+var allPresets = {};
+var allLabels = {};
 
 function processSocketMessage (message) {
 //    console.log('socket message', message);
@@ -791,24 +794,6 @@ $(document).ready(function () {
 
     reconnect();
 
-    // Oh wow, I so love writing multi-page frameworks :)
-    var first;
-    $('div.page div.title').each(function () {
-        var button = DOM.BUTTON(null, $(this).html());
-        button.page = this.parentNode;
-        if (!first) {
-            first = button;
-        }
-        $(button).bind('click', function () {
-            $('div.page').css('display', 'none');
-            $('#menu button').removeClass('active');
-            $(this).addClass('active');
-            $(this.page).css('display', 'block');
-        });
-        $('#menu').append(button);
-    });
-    $(first).trigger('click');
-
     _.each(_.range(4), function (seq) {
         _.each(_.range(16), function (step) {
             var id = "seq-track-" + (seq + 1) + "-step-" + (step + 1);
@@ -830,9 +815,103 @@ $(document).ready(function () {
         });
     });
 
-    // Apparently, initializing SVG documents takes a moment, so defer
-    // trying to bind handlers until that has happened.
-    setTimeout(initAdsr, 1000);
+    $('#preset-selector').bind('click', function () {
+        var presetName = $(this).val();
+        socket.send('preset ' + allPresets[presetName].parameters);
+    });
+    function showPresetsPage()
+    {
+        console.log('show presets page');
+        $('#preset-selector').empty();
+        $.getJSON("tetra-presets.json", function (presets, status) {
+            if (status != 'success') {
+                console.log('error loading presets:', status);
+            } else {
+                allPresets = {};
+                allLabels = {};
+                console.log('got', presets.length, 'presets');
+                $('#preset-selector')
+                    .append(_.map(presets,
+                                  function (preset) {
+                                      _.each(preset.labels, function (label) {
+                                          allLabels[label] = allLabels[label] || { count: 0 };
+                                          allLabels[label].count++;
+                                      });
+                                      allPresets[preset.name] = preset;
+                                      return DOM.OPTION(null, preset.name)
+                                  }));
+            }
+            $('#presets #filter-labels')
+                .empty()
+                .append(_.map(allLabels, function (value, key) {
+                    var button = DOM.BUTTON({ label: key }, key);
+                    $(button).bind('click', function () {
+                        console.log('button', $(this).attr('label'), 'clicked');
+                        if ($(this).attr('active')) {
+                            $(this)
+                                .removeAttr('active')
+                                .removeClass('active');
+                        } else {
+                            $(this)
+                                .attr('active', true)
+                                .addClass('active');
+                        }
+                    });
+                    return button;
+                }));
+        });
+    }
+
+    $('#presets').bind('show', showPresetsPage);
+
+    $('#osc-env').bind('show', function () {
+        // Apparently, initializing SVG documents takes a moment, so defer
+        // trying to bind handlers until that has happened.
+        setTimeout(initAdsr, 500);
+    });
+
+
+    // Oh wow, I so love writing multi-page frameworks - Here is another one! :)
+
+    $('div.page div.title').each(function () {
+        var button = DOM.BUTTON(null, $(this).html());
+        button.page = this.parentNode;
+        $(button).bind('click', function () {
+            $('div.page').css('display', 'none');
+            $('#menu button').removeClass('active');
+            $(this).addClass('active');
+            $(this.page)
+                .css('display', 'block')
+                .trigger('show');
+            currentPath = document.location.hash = '#' + this.page.id;
+        });
+        $('#menu').append(button);
+    });
+
+    $('#menu').bind('goto', function (event, id) {
+        $(this).find('button').each(function () {
+            if (this.page.id == id) {
+                $(this).trigger('click');
+            }
+        });
+    });
+
+    if (document.location.hash == "") {
+        document.location.hash = "#osc-env";
+    }
+    console.log('starting at', document.location.hash);
+
+    function pollForChanges()
+    {
+        // check for "back" button usage
+        if (document.location.hash != currentPath) {
+            var path = document.location.hash.substr(1).split('/');
+            var id = path.shift();
+            $('#menu').trigger('goto', id);
+        }
+    }
+
+    setInterval(pollForChanges, 250);
 });
 
 function initAdsr() {
@@ -843,14 +922,24 @@ function initAdsr() {
         var keys = ['delay', 'attack', 'decay', 'sustain', 'release'];
         that.set = function (key, parameter, value) {
             this.params[key] = value;
-            this.drawEnvelope();
+            try {
+                this.drawEnvelope();
+            }
+            catch (e) {
+                console.log('error updating adsr graph:', e);
+            }
         }
         map(function (id, key) {
             that.params[key] = $('#' + id)[0].control.getInternalValue();
             adsrParam[id] = bind(that.set, that, key);
             $('#' + id).bind('change', function () {
                 that.params[key] = this.control.getInternalValue();
-                that.drawEnvelope();
+                try {
+                    this.drawEnvelope();
+                }
+                catch (e) {
+                    console.log('error updating adsr graph:', e);
+                }
             });
         }, that.paramElements, keys);
         $(that).bind('change', function () {
@@ -864,7 +953,12 @@ function initAdsr() {
             },
                 keys, this.paramElements);
         });
-        that.drawEnvelope();
+        try {
+            this.drawEnvelope();
+        }
+        catch (e) {
+            console.log('error updating adsr graph:', e);
+        }
     }
     $('.adsr-graph embed').map(setupAdsr);
 }

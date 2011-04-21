@@ -41,6 +41,13 @@ function processSocketMessage (message) {
     }
 }
 
+function sendParameterChange(parameter, value)
+{
+    if (socket) {
+        socket.send(serializeJSON(['set', parameter, value]));
+    }
+}
+
 function tetraToggler(labels, id, title)
 {
     var element = document.getElementById(id);
@@ -792,9 +799,7 @@ $(document).ready(function () {
         setTimeout(reconnect, 500);
     });
     $('button').bind('change', function () {
-        if (socket) {
-            socket.send(serializeJSON(['set', this.id, this.control.getInternalValue()]));
-        }
+        sendParameterChange(this.id, this.control.getInternalValue());
     });
 
     reconnect();
@@ -814,11 +819,16 @@ $(document).ready(function () {
             spinner.resetToggler.spinner = spinner;
             $(spinner.resetToggler.getButtonElement()).bind('click', function () {
                 var spinner = this.control.spinner;
+                var value = this.control.getInternalValue() ? 126 : spinner.getInternalValue();
+                if (value > 125) {
+                    spinner.setDisabled(true);
+                } else {
+                    spinner.setDisabled(false);
+                }
                 if (spinner.restToggler) {
                     spinner.restToggler.setInternalValue(0);
                 }
-                spinner.setInternalValue(this.control.getInternalValue() ? 126 : 0);
-                $(spinner.getButtonElement()).trigger('changed');
+                sendParameterChange(spinner.getButtonElement().id, value);
             });
             if (seq == 0) {
                 spinner.restToggler = tetraToggler(undefined,
@@ -828,25 +838,29 @@ $(document).ready(function () {
                 spinner.restToggler.spinner = spinner;
                 $(spinner.restToggler.getButtonElement()).bind('click', function () {
                     var spinner = this.control.spinner;
+                    var value = this.control.getInternalValue() ? 127 : spinner.getInternalValue();
+                    if (value > 125) {
+                        spinner.setDisabled(true);
+                    } else {
+                        spinner.setDisabled(false);
+                    }
                     spinner.resetToggler.setInternalValue(0);
-                    spinner.setInternalValue(this.control.getInternalValue() ? 127 : 0);
-                    $(spinner.getButtonElement()).trigger('changed');
+                    sendParameterChange(spinner.getButtonElement().id, value);
                 });
             }
             spinner.realSetInternalValue = spinner.setInternalValue;
             spinner.setInternalValue = function (value) {
                 console.log('spinner value', value);
                 if (value > 125) {
-                    spinner.setDisabled(true);
-                    spinner.realSetInternalValue(0);
+                    this.setDisabled(true);
                 } else {
-                    spinner.setDisabled(false);
-                    spinner.realSetInternalValue(value);
+                    this.setDisabled(false);
                 }
-                spinner.resetToggler.setInternalValue(value == 126);
-                if (spinner.restToggler) {
-                    spinner.restToggler.setInternalValue(value == 127);
+                this.resetToggler.setInternalValue(value == 126);
+                if (this.restToggler) {
+                    this.restToggler.setInternalValue(value == 127);
                 }
+                this.realSetInternalValue(value);
             }
         });
     });

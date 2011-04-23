@@ -22,9 +22,13 @@ function processSocketMessage (message) {
     case 'set':
         var name = args.shift();
         var value = parseInt(args.shift());
-        if (controls[name]) {
+        var control = controls[name];
+        if (control) {
             try {
-                controls[name].setInternalValue(value);
+                control.setInternalValue(value);
+                if (control.setMarkerPosition) {
+                    control.setMarkerPosition(value);
+                }
             }
             catch (e) {
                 console.log("error can't set control " + name + ' to ' + value + ': ' + e);

@@ -942,7 +942,9 @@ $(document).ready(function () {
 
     // Oh wow, I so love writing multi-page frameworks - Here is another one! :)
 
+    var pageTriggerButtons = [];
     $('div.page div.title').each(function () {
+        var pageNumber = pageTriggerButtons.length;
         var button = DOM.BUTTON(null, $(this).html());
         button.page = this.parentNode;
         $(button).bind('click', function () {
@@ -953,8 +955,10 @@ $(document).ready(function () {
                 .css('display', 'block')
                 .trigger('show');
             currentPath = document.location.hash = '#' + this.page.id;
+            currentPageNumber = pageNumber;
         });
         $('#menu').append(button);
+        pageTriggerButtons.push(button);
     });
 
     $('#menu').bind('goto', function (event, id) {
@@ -964,6 +968,25 @@ $(document).ready(function () {
             }
         });
     });
+
+    // Bind ctrl-1,2,3... to jump to the pages directly
+    // Bind shift-space to jump to the next page
+    $(document).bind('keydown', function (event) {
+        // ascii 49 is '1'
+        // ascii 32 is space
+        if (event.ctrlKey
+            && (event.keyCode >= 49)
+            && (event.keyCode < (49 + pageTriggerButtons.length))) {
+            $(pageTriggerButtons[event.keyCode - 49]).trigger('click');
+        } else if (!event.ctrlKey && !event.altKey && event.shiftKey && event.keyCode == 32) {
+            currentPageNumber++;
+            if (currentPageNumber >= pageTriggerButtons.length) {
+                currentPageNumber = 0;
+            }
+            $(pageTriggerButtons[currentPageNumber]).trigger('click');
+        }
+    });
+            
 
     if (document.location.hash == "") {
         document.location.hash = "#osc-env";

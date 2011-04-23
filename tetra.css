@@ -28,6 +28,7 @@ button {
     font-size: 8pt;
     background-color: white;
     border-width: 0px;
+    vertical-align: middle;
 }
 
 .spinner {
@@ -163,28 +164,95 @@ button.active {
     background-color: orange;
 }
 
-#presets #file-selector {
-    width: 32em;
+#presets {
+    position: relative;
+    width: 428px;
+    height: 287px;
 }
 
 #presets #preset-selector {
+    position: absolute;
+    top: 26px;
+    left: 16em;
     width: 16em;
 }
 
 #presets #filter-labels {
-    display: inline;
+    position: absolute;
     border: 1px solid #333;
-    margin: 8px;
-    padding: 4px;
     background-color: white;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
-    min-height: 16em;
-    max-width: 16em;
+    top: 28px;
+    left: 8px;
+    width: 190px;
+    height: 255px;
+    vertical-align: top;
 }
 
 #presets #filter-labels button {
     border: 1px solid #333;
+    margin: 4px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
+}
+
+#unison {
+    position: relative;
+    height: 90px;
+    width: 208px;
+}
+
+#unison button {
+    position: absolute;
+    left: 8px;
+}
+
+#unison #unison-on-off {
+    top: 28px;
+}
+#unison #unison-assign {
+    top: 50px;
+    width: 200px;
+}
+#unison #unison-mode {
+    top: 72px;
+    width: 200px;
+}
+
+#push-it {
+    position: relative;
+    height: 90px;
+    width: 180px;
+}
+#push-it button {
+    position: absolute;
+    top: 28px;
+}
+#push-it-mode {
+    left: 8px;
+    width: 60px;
+}
+#push-it-note {
+    left: 78px;
+}
+#push-it-vel {
+    left: 126px;
+}
+
+#keyboard {
+    position: relative;
+    height: 90px;
+    width: 140px;
+}
+#keyboard button {
+    position: absolute;
+    top: 28px;
+}
+#kbd-mode {
+    left: 8px;
+    width: 60px;
+}
+#kbd-split-point {
+    left: 86px;
 }

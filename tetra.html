@@ -14,6 +14,8 @@
     <script type="text/javascript">MochiKit = {__export__: false};</script>
     <script type="application/javascript" src="/lib/MochiKit/MochiKit.js"></script>
     <script type="application/javascript" src="/lib/jquery-1.4.3.min.js"></script>
+    <script type="application/javascript" src="/lib/jquery.tagcloud.min.js"></script>
+    <script type="application/javascript" src="/lib/jquery.tinysort.min.js"></script>
     <script type="application/javascript" src="/lib/jquery.cookie.js"></script>
     <script type="application/javascript" src="/lib/underscore.js"></script>
     <script type="application/javascript" src="/lib/save-state.js"></script>
@@ -32,6 +34,7 @@
           <button id="osc-1-freq"></button>
           <button id="osc-1-freq-fine"></button>
           <button id="osc-1-shape"></button>
+          <button id="sub-osc-1-lvl"></button>
           <button id="glide-1"></button>
           <button id="osc-1-key" class="toggler"></button>
         </fieldset>
@@ -40,9 +43,11 @@
           <button id="osc-2-freq"></button>
           <button id="osc-2-freq-fine"></button>
           <button id="osc-2-shape"></button>
+          <button id="sub-osc-2-lvl"></button>
           <button id="glide-2"></button>
           <button id="osc-2-key" class="toggler"></button>
         </fieldset>
+        <br/>
         <fieldset>
           <legend>osc</legend>
           <button id="sync" class="toggler"></button>
@@ -50,6 +55,11 @@
           <button id="osc-slop"></button>
           <button id="osc-mix"></button>
           <button id="noise-level"></button>
+        </fieldset>
+        <fieldset>
+          <legend>feedback</legend>
+          <button id="feedback-vol"></button>
+          <button id="feedback-gain"></button>
         </fieldset>
         <br/>
         <fieldset class="with-adsr">
@@ -197,6 +207,11 @@
           <legend>foot</legend>
           <button id="foot-dest" class="selector"></button>
           <button id="foot-amt"></button>
+        </fieldset>
+        <br/>
+        <fieldset>
+          <legend>pitchbend</legend>
+          <button id="pbend-range"></button>
         </fieldset>
       </div>
       <div class="page" id="seq">
@@ -390,10 +405,28 @@
         </fieldset>
       </div>
       <div class="page" id="presets">
-        <div class="title">presets</div>
-        <fieldset>
+        <div class="title">global + presets</div>
+        <fieldset id="unison">
+          <legend>unison</legend>
+          <button id="unison-on-off"></button>
+          <button id="unison-assign"></button>
+          <button id="unison-mode"></button>
+        </fieldset>
+        <fieldset id="push-it">
+          <legend>push it! button</legend>
+          <button id="push-it-mode"></button>
+          <button id="push-it-note"></button>
+          <button id="push-it-vel"></button>
+        </fieldset>
+        <fieldset id="keyboard">
+          <legend>keyboard</legend>
+          <button id="kbd-mode"></button>
+          <button id="kbd-split-point"></button>
+        </fieldset>
+        <br/>
+        <fieldset id="presets">
           <legend>load preset</legend>
-          <div id="filter-labels"></div>
+          <ul id="filter-labels"></ul>
           <select size="16" id="preset-selector">
           </select>
         </fieldset>

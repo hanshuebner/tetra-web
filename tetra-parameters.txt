@@ -94,8 +94,8 @@ Parm	Name	Short Name	GUI Title	Range	Type	Description	A	B	V1	V2	V3	V4	V1-4
 61	LFO 4 SYNC	L4s	sync	0-1	onOff	LFO 4 Key Sync Off/On	56
 62	ENV3 DEST	ED	dest	0-47	modulationDestination	Envelope 3 Mod Destination	57
 63	ENV3 AMT	EA	amt	0-254	posNegAmount	"Envelope 3 Amount; -127 to +127"	58
-64	ENV 3 VEL AMT	EVA	vel amt	0-127		Envelope 3 Velocity Amount	59
-65	ENV 3 DELAY	EDE	delay	0-127		Envelope 3 Delay	60
+64	ENV3 VEL AMT	EVA	vel amt	0-127		Envelope 3 Velocity Amount	59
+65	ENV3 DEL	EDE	delay	0-127		Envelope 3 Delay	60
 66	ENV3 ATT	EAT	attack	0-127		Envelope 3 Attack	61
 67	ENV3 DEC	EDE	decay	0-127		Envelope 3 Decay	62
 68	ENV3 SUS	ESU	sustain	0-127		Envelope 3 Sustain	63

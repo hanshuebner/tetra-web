@@ -30,7 +30,7 @@ function processSocketMessage (message) {
                 console.log("error can't set control " + name + ' to ' + value + ': ' + e);
             }
         } else {
-            console.log('error unknown control', name);
+            // console.log('error unknown control', name);
         }
         if (adsrParam[name]) {
             adsrParam[name](name, value);
@@ -305,8 +305,12 @@ tetraControl.arpeggiatorMode
                               '3 octaves assign',
                               '3 octaves random']);
 tetraControl.pushItMode
+    = partial(tetraToggler, ['normal',
+                             'toggle']);
+tetraControl.keyboardMode
     = partial(tetraSelector, ['normal',
-                              'toggle']);
+                              'stack',
+                              'split']);
 
 $(document).ready(function () {
     // The ready function is called multiple times because of the embedded svg documents (?)
@@ -690,7 +694,7 @@ $(document).ready(function () {
     tetraSpinnerWithRange(0, 12)
         .call(this,
               "pbend-range",
-              "pb range", 15, 93, false, false, false, false, false);
+              "range", 15, 93, false, false, false, false, false);
     tetraControl.sequencerTrigger
         .call(this,
               "seq-trigger",
@@ -742,31 +746,31 @@ $(document).ready(function () {
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "feedback-gain",
-              "FEEDBACK GAIN", 19, 110, false, false, false, false, false);
+              "gain", 19, 110, false, false, false, false, false);
     tetraControl.note
         .call(this,
               "push-it-note",
-              "PUSH IT NOTE", 96, 111, false, false, false, false, false);
+              "note", 96, 111, false, false, false, false, false);
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "push-it-vel",
-              "PUSH IT VEL", 97, 112, false, false, false, false, false);
+              "vel", 97, 112, false, false, false, false, false);
     tetraControl.pushItMode
         .call(this,
               "push-it-mode",
-              "PUSH IT MODE", 98, 113, false, false, false, false, false);
+              "mode", 98, 113, false, false, false, false, false);
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "sub-osc-1-lvl",
-              "SUB OSC 1 LVL", 5, 114, false, false, false, false, false);
+              "sub osc", 5, 114, false, false, false, false, false);
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "sub-osc-2-lvl",
-              "SUB OSC 2 LVL", 11, 115, false, false, false, false, false);
+              "sub osc", 11, 115, false, false, false, false, false);
     tetraSpinnerWithRange(0, 127)
         .call(this,
               "feedback-vol",
-              "FEEDBACK VOL", 18, 116, false, false, false, false, false);
+              "vol", 18, 116, false, false, false, false, false);
     tetraSpinnerWithRange(0, 2)
         .call(this,
               "editor-byte",
@@ -774,11 +778,11 @@ $(document).ready(function () {
     tetraControl.note
         .call(this,
               "kbd-split-point",
-              "KBD SPLIT POINT", 99, 118, true, false, false, false, false);
-    tetraSpinnerWithRange(0, 2)
+              "split pt", 99, 118, true, false, false, false, false);
+    tetraControl.keyboardMode
         .call(this,
               "kbd-mode",
-              "KBD MODE", 100, 119, true, false, false, false, false);
+              "mode", 100, 119, true, false, false, false, false);
 
     var host = document.location.host.replace(/:.*/, "");
     socket = new io.Socket(host); 
@@ -850,7 +854,6 @@ $(document).ready(function () {
             }
             spinner.realSetInternalValue = spinner.setInternalValue;
             spinner.setInternalValue = function (value) {
-                console.log('spinner value', value);
                 if (value > 125) {
                     this.setDisabled(true);
                 } else {
@@ -867,7 +870,6 @@ $(document).ready(function () {
 
     $('#preset-selector').bind('click', function () {
         var presetName = $(this).val();
-        console.log('sending preset', allPresets[presetName].parameters);
         socket.send(serializeJSON(['preset', allPresets[presetName]]));
     });
 

@@ -25,6 +25,17 @@
   <body>
     <form onsubmit="return false;">
       <div id="menu"></div>
+      <div id="status-container">
+        <div>
+          <div id="sound-name"></div>
+          <div id="destination"></div>
+          Layer <button id="
+          <br/>
+          <button id="swap-original" class="toggler">original</button>
+          <button id="save" class="toggler">save</button>
+          <button id="revert" class="toggler">revert</button>
+        </div>
+      </div>
       <div class="page" id="osc-env">
         <div class="title">oscillators + envelopes</div>
         <fieldset>
@@ -422,7 +433,7 @@
           <button id="kbd-split-point"></button>
         </fieldset>
         <br/>
-        <fieldset id="presets">
+        <fieldset id="load-preset">
           <legend>load preset</legend>
           <ul id="filter-labels"></ul>
           <select size="16" id="preset-selector">

@@ -164,20 +164,47 @@ button.active {
     background-color: orange;
 }
 
-#presets {
+/* status box */
+
+#status-container {
+    position: absolute;
+    width: 250px;
+    height: 100px;
+    left: 756px;
+    top: 10px;
+    z-index: 100;
+}
+
+#status-container > div {
+    position: relative;
+    float: right;
+    border: 1px solid #333;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    background: white;
+    padding: 8px;
+}
+
+#status {
+    padding-bottom: 4px;
+}
+
+/* preset management */
+
+#load-preset {
     position: relative;
     width: 428px;
     height: 287px;
 }
 
-#presets #preset-selector {
+#load-preset #preset-selector {
     position: absolute;
     top: 26px;
     left: 16em;
     width: 16em;
 }
 
-#presets #filter-labels {
+#load-preset #filter-labels {
     position: absolute;
     border: 1px solid #333;
     background-color: white;
@@ -190,7 +217,7 @@ button.active {
     vertical-align: top;
 }
 
-#presets #filter-labels button {
+#load-preset #filter-labels button {
     border: 1px solid #333;
     margin: 4px;
     -webkit-border-radius: 3px;

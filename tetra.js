@@ -40,6 +40,10 @@ function processSocketMessage (message) {
             adsrParam[name](name, value);
         }
         break;
+    case 'preset':
+        console.log('got preset change');
+        presetChanged(args.shift());
+        break;
     default:
         console.log('error unknown command ' + command);
     }
@@ -315,6 +319,61 @@ tetraControl.keyboardMode
     = partial(tetraSelector, ['normal',
                               'stack',
                               'split']);
+
+
+function initAdsr() {
+    function setupAdsr() {
+        var that = this.getSVGDocument();
+        that.paramElements = this.parentNode.getAttribute('adsr-params').split(',');
+        that.paramToKey = {};
+        var keys = ['delay', 'attack', 'decay', 'sustain', 'release'];
+        that.set = function (key, parameter, value) {
+            this.params[key] = value;
+            try {
+                this.drawEnvelope();
+            }
+            catch (e) {
+                console.log('error updating adsr graph:', e);
+            }
+        }
+        map(function (id, key) {
+            that.params[key] = $('#' + id)[0].control.getInternalValue();
+            adsrParam[id] = bind(that.set, that, key);
+            $('#' + id).bind('change', function () {
+                that.params[key] = this.control.getInternalValue();
+                try {
+                    this.drawEnvelope();
+                }
+                catch (e) {
+                    console.log('error updating adsr graph:', e);
+                }
+            });
+        }, that.paramElements, keys);
+        $(that).bind('change', function () {
+            var that = this;
+            map(function (key, id) {
+                var control = $('#' + id)[0].control;
+                if (control.getInternalValue() != that.params[key]) {
+                    control.setInternalValue(that.params[key]);
+                    socket.send(serializeJSON(['set', id, that.params[key]]));
+                }
+            },
+                keys, this.paramElements);
+        });
+        try {
+            this.drawEnvelope();
+        }
+        catch (e) {
+            console.log('error updating adsr graph:', e);
+        }
+    }
+    $('.adsr-graph embed').map(setupAdsr);
+}
+
+function presetChanged(preset)
+{
+    $('#status').html("<b>" + preset.name + "</b>");
+}
 
 $(document).ready(function () {
     // The ready function is called multiple times because of the embedded svg documents (?)
@@ -806,9 +865,13 @@ $(document).ready(function () {
         console.log('socket disconnect, reconnecting');
         setTimeout(reconnect, 500);
     });
-    $('button').bind('change', function () {
-        sendParameterChange(this.id, this.control.getInternalValue());
-    });
+    $('button')
+        .bind('change', function () {
+            sendParameterChange(this.id, this.control.getInternalValue());
+        })
+        .each(function () {
+            this.setAttribute('title', this.id);
+        });
 
     reconnect();
 
@@ -875,6 +938,7 @@ $(document).ready(function () {
     $('#preset-selector').bind('click', function () {
         var presetName = $(this).val();
         socket.send(serializeJSON(['preset', allPresets[presetName]]));
+        presetChanged(allPresets[presetName]);
     });
 
     function showPresetsPage()
@@ -1005,53 +1069,3 @@ $(document).ready(function () {
 
     setInterval(pollForChanges, 250);
 });
-
-function initAdsr() {
-    function setupAdsr() {
-        var that = this.getSVGDocument();
-        that.paramElements = this.parentNode.getAttribute('adsr-params').split(',');
-        that.paramToKey = {};
-        var keys = ['delay', 'attack', 'decay', 'sustain', 'release'];
-        that.set = function (key, parameter, value) {
-            this.params[key] = value;
-            try {
-                this.drawEnvelope();
-            }
-            catch (e) {
-                console.log('error updating adsr graph:', e);
-            }
-        }
-        map(function (id, key) {
-            that.params[key] = $('#' + id)[0].control.getInternalValue();
-            adsrParam[id] = bind(that.set, that, key);
-            $('#' + id).bind('change', function () {
-                that.params[key] = this.control.getInternalValue();
-                try {
-                    this.drawEnvelope();
-                }
-                catch (e) {
-                    console.log('error updating adsr graph:', e);
-                }
-            });
-        }, that.paramElements, keys);
-        $(that).bind('change', function () {
-            var that = this;
-            map(function (key, id) {
-                var control = $('#' + id)[0].control;
-                if (control.getInternalValue() != that.params[key]) {
-                    control.setInternalValue(that.params[key]);
-                    socket.send(serializeJSON(['set', id, that.params[key]]));
-                }
-            },
-                keys, this.paramElements);
-        });
-        try {
-            this.drawEnvelope();
-        }
-        catch (e) {
-            console.log('error updating adsr graph:', e);
-        }
-    }
-    $('.adsr-graph embed').map(setupAdsr);
-}
-

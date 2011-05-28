@@ -52,6 +52,7 @@ function processSocketMessage (message) {
 function sendParameterChange(parameter, value)
 {
     if (socket) {
+        console.log('sending param change', parameter, '=>', value);
         socket.send(serializeJSON(['set', parameter, value]));
     }
 }
@@ -355,6 +356,7 @@ function initAdsr() {
                 var control = $('#' + id)[0].control;
                 if (control.getInternalValue() != that.params[key]) {
                     control.setInternalValue(that.params[key]);
+                    console.log('sending param change', parameter, '=>', value, '(location 2)');
                     socket.send(serializeJSON(['set', id, that.params[key]]));
                 }
             },
@@ -986,11 +988,7 @@ $(document).ready(function () {
 
     $('#presets').bind('show', showPresetsPage);
 
-    $('#osc-env').bind('show', function () {
-        // Apparently, initializing SVG documents takes a moment, so defer
-        // trying to bind handlers until that has happened.
-        setTimeout(initAdsr, 500);
-    });
+    $('.adsr-graph').svg(drawAdsr);
 
     $('#seq button.seq-spinner')
         .each(function () {

@@ -15,12 +15,14 @@
     <script type="application/javascript" src="/lib/MochiKit/MochiKit.js"></script>
     <script type="application/javascript" src="/lib/jquery-1.4.3.min.js"></script>
     <script type="application/javascript" src="/lib/jquery.cookie.js"></script>
+    <script type="application/javascript" src="/jquery.svg/jquery.svg.js"></script>
     <script type="application/javascript" src="/lib/underscore.js"></script>
     <script type="application/javascript" src="/lib/save-state.js"></script>
     <script type="application/javascript" src="/lib/log.js"></script>
 <!--    <script type="application/javascript" src="midi/midi-utils.js"></script> -->
     <script type="application/javascript" src="tetra.js"></script>
     <script type="application/javascript" src="/socket.io/socket.io.js"></script> 
+    <script type="application/javascript" src="/jsadsr.js"></script>
   </head>
   <body>
     <form onsubmit="return false;">
@@ -29,7 +31,7 @@
         <div>
           <div id="sound-name"></div>
           <div id="destination"></div>
-          Layer <button id="
+          Layer
           <br/>
           <button id="swap-original" class="toggler">original</button>
           <button id="save" class="toggler">save</button>
@@ -86,9 +88,7 @@
             <button id="fil-dec"></button>
             <button id="fil-sus"></button>
             <button id="fil-rel"></button>
-            <button class="adsr-graph" id="filter-adsr" adsr-params="fil-del,fil-att,fil-dec,fil-sus,fil-rel" type="submit">
-              <embed src="/adsr/adsr.svg" width="207" height="57" type="image/svg+xml"/>
-            </button>
+            <button class="adsr-graph" id="filter-adsr" controls="fil-del,fil-att,fil-dec,fil-sus,fil-rel"></button>
           </div>
         </fieldset>
         <br/>
@@ -105,9 +105,7 @@
             <button id="vca-dec"></button>
             <button id="vca-sus"></button>
             <button id="vca-rel"></button>
-            <button class="adsr-graph" id="vca-adsr" adsr-params="vca-del,vca-att,vca-dec,vca-sus,vca-rel" type="submit">
-              <embed src="/adsr/adsr.svg" width="207" height="57" type="image/svg+xml"/>
-            </button>
+            <button class="adsr-graph" id="vca-adsr" controls="vca-del,vca-att,vca-dec,vca-sus,vca-rel"/>
           </div>
         </fieldset>
         <br/>
@@ -123,9 +121,7 @@
             <button id="env3-dec"></button>
             <button id="env3-sus"></button>
             <button id="env3-rel"></button>
-            <button class="adsr-graph" id="env3-adsr" adsr-params="env3-del,env3-att,env3-dec,env3-sus,env3-rel" type="submit">
-              <embed src="/adsr/adsr.svg" width="207" height="57" type="image/svg+xml"/>
-            </button>
+            <button class="adsr-graph" id="env3-adsr" controls="env3-del,env3-att,env3-dec,env3-sus,env3-rel"/>
           </div>
         </fieldset>
       </div>

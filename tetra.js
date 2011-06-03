@@ -850,7 +850,7 @@ $(document).ready(function () {
               "mode", 100, 119, true, false, false, false, false);
 
     var host = document.location.host.replace(/:.*/, "");
-    socket = new io.Socket(host); 
+    socket = new io.Socket(host, { transports: ['websocket'] }); 
     function reconnect() {
         console.log('connecting to', host);
         socket.connect();
@@ -937,12 +937,6 @@ $(document).ready(function () {
         });
     });
 
-    $('#preset-selector').bind('click', function () {
-        var presetName = $(this).val();
-        socket.send(serializeJSON(['preset', allPresets[presetName]]));
-        presetChanged(allPresets[presetName]);
-    });
-
     function showPresetsPage()
     {
         console.log('show presets page');
@@ -962,8 +956,15 @@ $(document).ready(function () {
                                           allLabels[label].count++;
                                       });
                                       allPresets[preset.name] = preset;
-                                      return DOM.OPTION(null, preset.name)
+                                      return DOM.OPTION({ value: preset.name }, preset.name)
                                   }));
+                $('#preset-selector option').bind('click', function () {
+                    var presetName = $(this).val();
+                    console.log('preset-selector clicked, name', this.getAttribute(name));
+                    socket.send(serializeJSON(['preset', allPresets[presetName]]));
+                    presetChanged(allPresets[presetName]);
+                });
+
             }
             $('#presets #filter-labels')
                 .empty()
